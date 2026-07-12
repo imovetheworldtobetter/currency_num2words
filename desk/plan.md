@@ -191,15 +191,26 @@ tests/myCurrencyMagic.IntegrationTests
    - Documented current expected test count.
    - Linked the known WPF build artifact issue to `knownproblems.md`.
 
-### Next Todo
-
 9. Add logging.
-   - Add Serilog after the first validation and README update.
-   - Use `Serilog.AspNetCore`.
-   - Use `Serilog.Sinks.File`.
-   - Write rolling hourly log files.
-   - Use `logs/log-YYYY-MM-DD-HH.txt`.
-   - Log request start, request end, information, warnings, and errors.
+   - Added `Serilog.AspNetCore` 9.0.0 to the server project.
+   - Added `Serilog.Sinks.File` 7.0.0 to the server project.
+   - Configured Serilog for console logging and rolling hourly file logging.
+   - Configured immediate file writes with `buffered: false`.
+   - Configured `flushToDiskInterval` to reduce log loss risk on crashes.
+   - Configured log retention for 168 hourly files.
+   - Added server lifecycle logging for start, stopping, stopped, fatal termination, and final flush.
+   - Added conversion request start logging.
+   - Added validation/header warning logging.
+   - Added conversion-service warning logging.
+   - Added unhandled conversion error logging.
+   - Added Serilog HTTP request completion logging through `UseSerilogRequestLogging`.
+   - Verified a real server request writes log entries to `logs/log-YYYYMMDDHH.txt` under the server content root.
+   - Ran `dotnet restore myCurrencyMagic.sln` successfully.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
+   - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"` successfully.
+   - Test result: 38 unit tests passed and 8 integration tests passed.
+
+### Next Todo
 
 10. Externalize configuration.
    - Move server base URL, port, timeout, retry count, client header settings, supported languages, supported currencies, and UI texts into configuration files where practical.
@@ -211,3 +222,4 @@ tests/myCurrencyMagic.IntegrationTests
 - Decide whether a future remote server uses HTTPS with authentication, certificates, Windows authentication, or another security mechanism.
 - Decide whether currency selection becomes an explicit GUI control after the first version.
 - Decide whether conversion rules should later become a formal versioned rules package.
+- Decide whether the Serilog rolling file name `log-YYYYMMDDHH.txt` is acceptable or whether exact hyphenated names like `log-YYYY-MM-DD-HH.txt` require a custom naming approach.
