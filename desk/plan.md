@@ -171,20 +171,27 @@ tests/myCurrencyMagic.IntegrationTests
    - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=normal"` successfully.
    - Test result: 38 unit tests passed and 8 integration tests passed.
 
-### Next Todo
-
 8. First validation.
-   - Run `dotnet restore`.
-   - Run `dotnet build`.
-   - Run `dotnet test`.
-   - Manually start server and client where feasible.
+   - Ran `dotnet restore myCurrencyMagic.sln` successfully.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
+   - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"` successfully.
+   - Test result: 38 unit tests passed and 8 integration tests passed.
+   - Smoke-tested the real server process on a temporary local port with `POST /convert`.
+   - Smoke-test response confirmed JSON response with German umlauts and sharp s.
+   - Manual Visual Studio and GUI startup was reported successful by the user before this validation step.
 
 11. Update README.
-   - Add development environment prerequisites.
-   - Add command-line startup instructions.
-   - Add Visual Studio Community startup instructions.
-   - Add command-line test instructions.
-   - Add Visual Studio Community test instructions.
+   - Added development environment prerequisites.
+   - Documented SDK pinning through root `global.json`.
+   - Added command-line restore and build instructions.
+   - Added command-line server and client startup instructions.
+   - Added Visual Studio Community startup instructions with multiple startup projects.
+   - Added command-line test instructions.
+   - Added Visual Studio Community test instructions.
+   - Documented current expected test count.
+   - Linked the known WPF build artifact issue to `knownproblems.md`.
+
+### Next Todo
 
 9. Add logging.
    - Add Serilog after the first validation and README update.
