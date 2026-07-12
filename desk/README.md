@@ -197,23 +197,38 @@ logs/log-2026071214.txt
 Run from the repository root:
 
 ```powershell
-dotnet test .\myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"
+dotnet test .\myCurrencyMagic.sln --no-build --settings .\myCurrencyMagic.tests.runsettings --logger "console;verbosity=minimal"
 ```
+
+The runsettings file enables native VSTest TRX result files under:
+
+```text
+tests\TestResults
+```
+
+TRX files are XML files and include the executed tests, outcomes, timing, and run summary counters such as total, passed, and failed.
 
 If the solution has not been built yet:
 
 ```powershell
 dotnet restore .\myCurrencyMagic.sln
 dotnet build .\myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false
-dotnet test .\myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"
+dotnet test .\myCurrencyMagic.sln --no-build --settings .\myCurrencyMagic.tests.runsettings --logger "console;verbosity=minimal"
 ```
 
 ### Run Tests In Visual Studio Community
 
 1. Open `myCurrencyMagic.sln`.
 2. Build the solution.
-3. Open Test Explorer.
-4. Run all tests or select a specific test project.
+3. Select `myCurrencyMagic.tests.runsettings` as the solution-wide runsettings file.
+4. Open Test Explorer.
+5. Run all tests or select a specific test project.
+
+Visual Studio writes the same native TRX result files to:
+
+```text
+tests\TestResults
+```
 
 Expected current test count:
 
