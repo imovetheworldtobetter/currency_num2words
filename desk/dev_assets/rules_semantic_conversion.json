@@ -61,6 +61,11 @@
       "then": "Euro and Cent always singular"
     },
     {
+      "id": "DE_one_before_currency",
+      "if": "language == 'de' and number_word directly precedes Euro or Cent and value == 1",
+      "then": "use 'ein' before Euro or Cent, not 'eins'"
+    },
+    {
       "id": "EN_plural_currency",
       "if": "language == 'en' and value != 1",
       "then": "use plural: dollars, cents"
