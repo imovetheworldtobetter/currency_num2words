@@ -1,0 +1,62 @@
+# Build output
+bin/
+obj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+arm64/
+
+# Visual Studio workspace and user state
+.vs/
+*.user
+*.suo
+*.rsuser
+*.sln.docstates
+*.slnLaunch.user
+
+# Rider / ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# Visual Studio Code local settings
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# .NET test and coverage output
+TestResults/
+coverage/
+coverage.*
+*.coverage
+*.coveragexml
+*.trx
+
+# NuGet local output
+*.nupkg
+*.snupkg
+packages/
+
+# Logs and runtime artifacts
+logs/
+*.log
+*.tmp
+*.temp
+
+# WPF and MSBuild temporary files
+*_wpftmp.*
+*.g.cs
+*.g.i.cs
+*.baml
+*.cache
+*.FileListAbsolute.txt
+*.GeneratedMSBuildEditorConfig.editorconfig
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
