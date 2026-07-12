@@ -147,7 +147,7 @@
                         Orientation="Horizontal"
                         VerticalAlignment="Center"
                         Margin="0,0,14,0">
-                <Button Content="DE"
+                <Button Content="{Binding GermanLanguageLabel}"
                         Command="{Binding SwitchToGermanCommand}"
                         Tag="{Binding IsGermanActive}"
                         Style="{StaticResource LanguageButtonStyle}" />
@@ -155,7 +155,7 @@
                            Foreground="#CCFFFFFF"
                            VerticalAlignment="Center"
                            Margin="4,0" />
-                <Button Content="EN"
+                <Button Content="{Binding EnglishLanguageLabel}"
                         Command="{Binding SwitchToEnglishCommand}"
                         Tag="{Binding IsEnglishActive}"
                         Style="{StaticResource LanguageButtonStyle}" />
@@ -166,6 +166,9 @@
                 <Button Content="-"
                         Style="{StaticResource ChromeButtonStyle}"
                         Click="Minimize_Click" />
+                <Button Content="□"
+                        Style="{StaticResource ChromeButtonStyle}"
+                        Click="Maximize_Click" />
                 <Button Content="x"
                         Style="{StaticResource ChromeButtonStyle}"
                         Click="Close_Click" />
@@ -198,52 +201,39 @@
                            Margin="0,0,0,6" />
 
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0"
-                               Text="{Binding CurrencySymbol}"
+                    <TextBox x:Name="AmountTextBox"
+                             Style="{StaticResource AngularTextBoxStyle}"
+                             TextChanged="AmountTextBox_TextChanged"
+                             PreviewTextInput="AmountTextBox_PreviewTextInput"
+                             PreviewKeyDown="AmountTextBox_PreviewKeyDown" />
+                    <TextBlock Text="{Binding CurrencySymbol}"
                                Visibility="{Binding IsCurrencyLeading, Converter={StaticResource BooleanToVisibilityConverter}}"
                                Foreground="{StaticResource ThemePurpleBrush}"
                                FontWeight="SemiBold"
                                FontSize="24"
                                VerticalAlignment="Center"
-                               Margin="0,0,10,0" />
-
-                    <Grid Grid.Column="1">
-                        <TextBox x:Name="AmountTextBox"
-                                 Style="{StaticResource AngularTextBoxStyle}"
-                                 TextChanged="AmountTextBox_TextChanged"
-                                 PreviewTextInput="AmountTextBox_PreviewTextInput" />
-                        <TextBlock Text="{Binding PlaceholderText}"
-                                   Foreground="#8A8A8A"
-                                   FontSize="18"
-                                   Padding="13,9"
-                                   IsHitTestVisible="False">
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Text, ElementName=AmountTextBox}" Value="">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </Grid>
-
-                    <TextBlock Grid.Column="2"
-                               Text="{Binding CurrencySymbol}"
-                               Visibility="{Binding IsCurrencyTrailing, Converter={StaticResource BooleanToVisibilityConverter}}"
-                               Foreground="{StaticResource ThemePurpleBrush}"
-                               FontWeight="SemiBold"
-                               FontSize="24"
-                               VerticalAlignment="Center"
-                               Margin="10,0,0,0" />
+                               HorizontalAlignment="Left"
+                               IsHitTestVisible="False">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform X="-28" />
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Text="{Binding PlaceholderText}"
+                               Foreground="#8A8A8A"
+                               FontSize="18"
+                               Padding="13,9"
+                               IsHitTestVisible="False">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=AmountTextBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </Grid>
 
                 <TextBlock Text="{Binding ValidationMessage}"

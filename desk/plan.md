@@ -147,8 +147,8 @@ tests/myCurrencyMagic.IntegrationTests
    - Added WPF dependency injection through `Microsoft.Extensions.Hosting`.
    - Added HTTP client factory and `Microsoft.Extensions.Http.Resilience`.
    - Implemented custom window chrome with purple-blue-violet gradient header.
-   - Implemented EN/DE language switch in the top-right header area.
-   - Set currency explicitly from selected language: EN -> USD, DE -> USD.
+   - Implemented US-EN/DE language switch in the top-right header area.
+   - Set currency explicitly from selected language: US-EN -> USD, DE -> USD.
    - Implemented amount input formatting with spaces as thousands separators.
    - Implemented input validation for allowed characters, format, comma rules, decimal length, and maximum value.
    - Implemented paste rejection for invalid character and invalid format cases.
@@ -219,7 +219,7 @@ tests/myCurrencyMagic.IntegrationTests
    - Copied client `appsettings.json` to the WPF output directory.
    - Added typed client runtime options.
    - Added typed client UI options.
-   - Moved EN/DE UI texts to `ClientUi`.
+   - Moved US-EN/DE UI texts to `ClientUi`.
    - Moved language-to-currency mapping to `ClientUi`.
    - Kept currency explicitly set in client code when the language changes.
    - Added server API options.
@@ -239,8 +239,8 @@ tests/myCurrencyMagic.IntegrationTests
 12. Apply USD-only currency requirement.
    - Removed previous non-USD currency support from code, configuration, documentation, requirements, semantic rules, and tests.
    - Kept the `currency` request and response field for future currency extensibility.
-   - Configured both EN and DE UI language selections to send `USD`.
-   - Configured the GUI to show `$` on the left side for both EN and DE.
+   - Configured both US-EN and DE UI language selections to send `USD`.
+   - Configured the GUI to show `$` on the left side for both US-EN and DE.
    - Updated German output to use `Dollar` and `Cent`.
    - Added German Dollar null-plural behavior: `ein Dollar`, `zwei Dollar`.
    - Kept German number composition rules unchanged.
@@ -249,11 +249,22 @@ tests/myCurrencyMagic.IntegrationTests
    - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
    - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"` successfully.
    - Test result: 37 unit tests passed and 8 integration tests passed.
-   - Smoke-tested real server requests for DE/USD and EN/USD successfully.
+   - Smoke-tested real server requests for DE/USD and US-EN/USD successfully.
 
 ### Next Todo
 
 No planned implementation steps remain in this plan.
+
+## Requested GUI Fixes
+
+1. Keep input, button, and output left aligned while showing the `$` symbol to the left of the input field.
+2. Rename the visible English language label from `EN` to `US-EN` across the project.
+3. Re-send the current input on language switch when it is present and valid; otherwise clear the output.
+4. Ignore clicks on the already active language.
+5. Make `Enter` behave like the conversion button and prevent it from reaching the server as input.
+6. Keep all German UI messages fully German and all English UI messages fully English.
+7. Update the introductory text to mention US dollars explicitly.
+8. Add a maximize button between minimize and close in the custom title bar.
 
 ## Open Points / Issues For Later
 

@@ -2,14 +2,14 @@
 
 ## GUI
 
-1. The UI language must be switchable by the user between English (EN) and German (DE).
-2. The default UI language must be English (EN).
+1. The UI language must be switchable by the user between US-English (US-EN) and German (DE).
+2. The default UI language must be US-English (US-EN).
 3. The language switch must be displayed as small but clearly visible clickable text in the top-right area of the GUI.
-4. The active language must be highlighted while both `DE` and `EN` remain visible.
+4. The active language must be highlighted while both `DE` and `US-EN` remain visible.
 5. The number input field must be horizontally centered and vertically positioned around the golden-ratio area of the window.
 6. The input field must be wide enough to hold at least 50 characters. Its height should follow the configured font size.
 7. The currently selected currency symbol must be displayed next to the input field.
-8. English (EN) sets currency to USD and displays `$` on the left side of the input field.
+8. US-EN sets currency to USD and displays `$` on the left side of the input field.
 9. German (DE) also sets currency to USD and displays `$` on the left side of the input field.
 10. The client must explicitly send both `language` and `currency` to the server.
 11. The currency must be set explicitly in client code based on the selected UI language, even though both initial languages currently use USD, so that a later GUI control can change currency independently.
@@ -40,7 +40,7 @@
 36. If the user enters an invalid format, a small accented help text must appear below the input field explaining the allowed format.
 37. A conversion button must be shown below the input field and the validation message area.
 38. The conversion button must be left-aligned with the input field.
-39. The conversion button text must be `Convert` for English and `Umwandeln` for German.
+39. The conversion button text must be `Convert` for US-English and `Umwandeln` for German.
 40. If the input characters and format are valid, the conversion button must be enabled.
 41. If the input characters or format are invalid, the conversion button must be disabled.
 42. A disabled conversion button must be displayed with slight transparency.
@@ -54,16 +54,17 @@
 50. The output field height must be large enough to display the long English result `nine hundred ninety-nine million nine hundred ninety-nine thousand nine hundred ninety-nine dollars and ninety-nine cents` with a small amount of extra vertical padding.
 51. The output field may wrap the number words at spaces so the text fits inside the field.
 52. The output field must remain empty until a result is available.
-53. When the user changes the UI language, the output field must be cleared.
-54. When the user changes the UI language, the characters in the input field must remain unchanged.
-55. A short introductory text must be shown above the input field in a slightly larger font size.
-56. The introductory text must explain that the application converts a typed number into a currency amount in words and that the result appears in the output field after pressing the conversion button.
-57. The introductory text must be German when the UI language is DE.
-58. The introductory text must be English when the UI language is EN.
-59. The user must be able to select and copy the output text through the context menu or `Ctrl+C`.
-60. The output field must be read-only.
-61. The user must be able to select and copy the input text through the context menu or `Ctrl+C`.
-62. The input field must have a small neutral-colored title similar to `Input currency amount as number`.
-63. The input field title must be German when the UI language is DE and English when the UI language is EN.
-64. The output field must have a small neutral-colored title similar to `Output currency amount in words`.
-65. The output field title must be German when the UI language is DE and English when the UI language is EN.
+53. When the user changes the UI language, the current input value must be re-sent to the server if it is present and valid so that the output is refreshed in the newly selected language.
+54. When the user changes the UI language and the current input is missing or invalid, the output field must be cleared.
+55. When the user changes the UI language, the characters in the input field must remain unchanged.
+56. A short introductory text must be shown above the input field in a slightly larger font size.
+57. The introductory text must explain that the application converts a typed number into a US dollar amount in words and that the result appears in the output field after pressing the conversion button.
+58. The introductory text must be German when the UI language is DE.
+59. The introductory text must be English when the UI language is US-EN.
+60. The user must be able to select and copy the output text through the context menu or `Ctrl+C`.
+61. The output field must be read-only.
+62. The user must be able to select and copy the input text through the context menu or `Ctrl+C`.
+63. The input field must have a small neutral-colored title similar to `Input currency amount as number`.
+64. The input field title must be German when the UI language is DE and English when the UI language is US-EN.
+65. The output field must have a small neutral-colored title similar to `Output currency amount in words`.
+66. The output field title must be German when the UI language is DE and English when the UI language is US-EN.

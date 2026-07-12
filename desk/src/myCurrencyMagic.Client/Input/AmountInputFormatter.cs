@@ -1,15 +1,17 @@
+using myCurrencyMagic.Client.Configuration;
+
 namespace myCurrencyMagic.Client.Input;
 
 public sealed class AmountInputFormatter
 {
     private const long MaxAmount = 999_999_999;
 
-    public AmountInputFormatResult Format(string rawText, int caretIndex)
+    public AmountInputFormatResult Format(string rawText, int caretIndex, ClientTextOptions texts)
     {
         var contentCharsBeforeCaret = CountContentCharacters(rawText, caretIndex);
         var cleaned = rawText.Replace(" ", string.Empty, StringComparison.Ordinal);
         var displayText = FormatCleanedText(cleaned);
-        var validationMessage = ValidateCleanedText(cleaned);
+        var validationMessage = ValidateCleanedText(cleaned, texts);
         var newCaretIndex = FindCaretIndex(displayText, contentCharsBeforeCaret);
 
         return new AmountInputFormatResult(
@@ -32,13 +34,13 @@ public sealed class AmountInputFormatter
         }
 
         var cleaned = text.Replace(" ", string.Empty, StringComparison.Ordinal);
-        return ValidateCleanedText(cleaned) is null;
+        return ValidateCleanedText(cleaned, ClientTextOptionsDefaults.Default) is null;
     }
 
-    public string? ValidateDisplayText(string displayText)
+    public string? ValidateDisplayText(string displayText, ClientTextOptions texts)
     {
         var cleaned = displayText.Replace(" ", string.Empty, StringComparison.Ordinal);
-        return ValidateCleanedText(cleaned);
+        return ValidateCleanedText(cleaned, texts);
     }
 
     private static string FormatCleanedText(string cleaned)
@@ -73,7 +75,7 @@ public sealed class AmountInputFormatter
         return string.Join(' ', groups);
     }
 
-    private static string? ValidateCleanedText(string cleaned)
+    private static string? ValidateCleanedText(string cleaned, ClientTextOptions texts)
     {
         if (cleaned.Length == 0)
         {
@@ -82,12 +84,12 @@ public sealed class AmountInputFormatter
 
         if (cleaned.Any(character => !char.IsDigit(character) && character != ','))
         {
-            return "Allowed characters: digits 0-9 and comma.";
+            return texts.InvalidCharacterMessage;
         }
 
         if (cleaned.Count(character => character == ',') > 1)
         {
-            return "Use the format 123 456 789,12.";
+            return texts.InvalidFormatMessage;
         }
 
         var parts = cleaned.Split(',');
@@ -97,22 +99,22 @@ public sealed class AmountInputFormatter
 
         if (integerPart.Length == 0)
         {
-            return "Use the format 123 456 789,12.";
+            return texts.InvalidFormatMessage;
         }
 
         if (integerPart.Length > 9)
         {
-            return "The maximum value is 999 999 999,99.";
+            return texts.MaximumValueMessage;
         }
 
         if (hasComma && decimalPart.Length == 0)
         {
-            return "A comma must be followed by one or two digits.";
+            return texts.DecimalDigitsMessage;
         }
 
         if (hasComma && decimalPart.Length > 2)
         {
-            return "Use one or two decimal digits after the comma.";
+            return texts.DecimalDigitsMessage;
         }
 
         var normalizedInteger = integerPart.TrimStart('0');
@@ -123,7 +125,7 @@ public sealed class AmountInputFormatter
 
         if (!long.TryParse(normalizedInteger, out var integerValue) || integerValue > MaxAmount)
         {
-            return "The maximum value is 999 999 999,99.";
+            return texts.MaximumValueMessage;
         }
 
         return null;
@@ -168,4 +170,9 @@ public sealed class AmountInputFormatter
 
         return formattedText.Length;
     }
+}
+
+internal static class ClientTextOptionsDefaults
+{
+    public static ClientTextOptions Default { get; } = new();
 }

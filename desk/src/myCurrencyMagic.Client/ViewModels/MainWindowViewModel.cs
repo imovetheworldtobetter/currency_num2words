@@ -41,6 +41,10 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public AsyncRelayCommand ConvertCommand { get; }
 
+    public string EnglishLanguageLabel => _uiOptions.GetLanguage(LanguageCodes.English).DisplayName;
+
+    public string GermanLanguageLabel => _uiOptions.GetLanguage(LanguageCodes.German).DisplayName;
+
     public string AmountText
     {
         get => _amountText;
@@ -131,7 +135,7 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public AmountInputFormatResult FormatAmountText(string rawText, int caretIndex)
     {
-        return _formatter.Format(rawText, caretIndex);
+        return _formatter.Format(rawText, caretIndex, CurrentTexts);
     }
 
     public bool ContainsOnlyAllowedAmountCharacters(string text)
@@ -162,7 +166,7 @@ public sealed class MainWindowViewModel : ObservableObject
     {
         return !IsConverting
             && !string.IsNullOrWhiteSpace(AmountText)
-            && _formatter.ValidateDisplayText(AmountText) is null;
+            && _formatter.ValidateDisplayText(AmountText, CurrentTexts) is null;
     }
 
     private async Task ConvertAsync()
@@ -199,13 +203,19 @@ public sealed class MainWindowViewModel : ObservableObject
 
     private void SetLanguage(string language)
     {
+        if (string.Equals(_language, language, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
         _language = language;
         _currency = CurrentLanguageOptions.Currency;
-        OutputText = string.Empty;
         ServerMessage = null;
 
         OnPropertyChanged(nameof(IsEnglishActive));
         OnPropertyChanged(nameof(IsGermanActive));
+        OnPropertyChanged(nameof(EnglishLanguageLabel));
+        OnPropertyChanged(nameof(GermanLanguageLabel));
         OnPropertyChanged(nameof(CurrencySymbol));
         OnPropertyChanged(nameof(IsCurrencyLeading));
         OnPropertyChanged(nameof(IsCurrencyTrailing));
@@ -213,6 +223,19 @@ public sealed class MainWindowViewModel : ObservableObject
         OnPropertyChanged(nameof(InputTitle));
         OnPropertyChanged(nameof(OutputTitle));
         OnPropertyChanged(nameof(ConvertButtonText));
+
+        ValidationMessage = string.IsNullOrWhiteSpace(AmountText)
+            ? null
+            : _formatter.ValidateDisplayText(AmountText, CurrentTexts);
+
+        if (ValidationMessage is null && !string.IsNullOrWhiteSpace(AmountText))
+        {
+            ConvertCommand.Execute(null);
+        }
+        else
+        {
+            OutputText = string.Empty;
+        }
 
         ((RelayCommand)SwitchToEnglishCommand).RaiseCanExecuteChanged();
         ((RelayCommand)SwitchToGermanCommand).RaiseCanExecuteChanged();

@@ -37,6 +37,11 @@ public partial class MainWindow : Window
         WindowState = WindowState.Minimized;
     }
 
+    private void Maximize_Click(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+    }
+
     private void Close_Click(object sender, RoutedEventArgs e)
     {
         Close();
@@ -51,6 +56,20 @@ public partial class MainWindow : Window
 
         e.Handled = true;
         _viewModel.ShowInvalidCharacterMessage();
+    }
+
+    private void AmountTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Enter)
+        {
+            return;
+        }
+
+        e.Handled = true;
+        if (_viewModel.ConvertCommand.CanExecute(null))
+        {
+            _viewModel.ConvertCommand.Execute(null);
+        }
     }
 
     private void AmountTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

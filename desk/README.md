@@ -1,6 +1,6 @@
 # myCurrencyMagic
 
-`myCurrencyMagic` is a .NET 9 WPF desktop client and local ASP.NET Core Minimal API server for converting numeric currency amounts into words.
+`myCurrencyMagic` is a .NET 9 WPF desktop client and local ASP.NET Core Minimal API server for converting numeric currency amounts in USD into words.
 
 The WPF client is the presentation layer. The server owns the conversion logic and is called through HTTP.
 
