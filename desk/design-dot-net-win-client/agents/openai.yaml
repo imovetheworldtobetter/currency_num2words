@@ -1,0 +1,4 @@
+interface:
+  display_name: ".NET Windows Client Design"
+  short_description: "Apply branded Windows client UI design rules"
+  default_prompt: "Use $design-dot-net-win-client to design a WPF or WinUI Windows client UI."

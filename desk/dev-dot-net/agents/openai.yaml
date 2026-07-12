@@ -1,0 +1,4 @@
+interface:
+  display_name: ".NET Development"
+  short_description: "Avoid recurring .NET project setup issues"
+  default_prompt: "Use $dev-dot-net to set up or troubleshoot a .NET project."

@@ -1,0 +1,109 @@
+{
+  "semantic_rules": [
+    {
+      "id": "thousands_space",
+      "if": "input contains space",
+      "then": "interpret space as thousand separator"
+    },
+	{
+      "id": "DE_0_only",
+      "if": "input == '0'",
+      "then": "output = 'null Euro'"
+    },
+    {
+      "id": "EN_0_only",
+      "if": "input == '0'",
+      "then": "output = 'zero dollars'"
+    },
+	{
+	  "id": "currency_parts_definition",
+	  "if": "input contains comma",
+	  "then": "the part before the comma represents main currency dollars or Euro, the part after the comma represents Cent"
+	},
+	{
+      "id": "normalize_leading_zeros_integer",
+      "if": "integer_part contains only zeros",
+      "then": "integer_part = '0'"
+	},
+	{
+      "id": "strip_leading_zeros_integer",
+      "if": "integer_part starts with zeros and integer_part != '0'",
+	  "then": "remove all leading zeros"
+	}
+    {
+      "id": "normalize_decimal",
+      "if": "input contains comma",
+      "then": "cent_part = cent_part padded to 2 digits (zero-padding)"
+    },
+    {
+      "id": "DE_no_comma",
+      "if": "input has no comma",
+      "then": "output = '<number_word> Euro'"
+    },
+    {
+      "id": "EN_no_comma",
+      "if": "input has no comma",
+      "then": "output = '<number_word> dollars'"
+    },
+    {
+      "id": "DE_with_comma",
+      "if": "input has comma",
+      "then": "output = '<euro_word> Euro und <cent_word> Cent'"
+    },
+    {
+      "id": "EN_with_comma",
+      "if": "input has comma",
+      "then": "output = '<dollar_word> dollars and <cent_word> cents'"
+    },
+    {
+      "id": "DE_singular_currency",
+      "if": "language == 'de'",
+      "then": "Euro and Cent always singular"
+    },
+    {
+      "id": "EN_plural_currency",
+      "if": "language == 'en' and value != 1",
+      "then": "use plural: dollars, cents"
+    },
+    {
+      "id": "EN_and_required",
+      "if": "language == 'en' and input has comma",
+      "then": "insert 'and' between dollars and cents"
+    },
+    {
+      "id": "DE_capitalization",
+      "if": "language == 'de'",
+      "then": "currency nouns capitalized, number words lowercase"
+    },
+	{
+      "id": "DE_million_singular",
+      "if": "language == 'de' and input is equal or greater than 1000000",
+      "then": "number word million capitalized"
+    },
+	{
+      "id": "DE_million_plural",
+      "if": "language == 'de' and input is equal or greater than 2000000",
+      "then": "number word million is always plural and capitalized"
+    },
+    {
+      "id": "EN_lowercase",
+      "if": "language == 'en'",
+      "then": "everything lowercase"
+    },
+    {
+      "id": "EN_hyphen",
+      "if": "language == 'en' and number_word between 21 and 99",
+      "then": "use hyphen between number words"
+    },
+    {
+      "id": "DE_concat",
+      "if": "language == 'de' and input is lower than 1000000",
+      "then": "concatenate number words"
+    },
+	{
+      "id": "DE_concat_million",
+      "if": "language == 'de' and input is equal or greater than 1000000",
+      "then": "number word million stands alone, concatenate other number words"
+    }
+  ]
+}

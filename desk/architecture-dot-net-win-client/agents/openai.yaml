@@ -1,0 +1,4 @@
+interface:
+  display_name: ".NET Architecture"
+  short_description: "Apply modular .NET client-server architecture"
+  default_prompt: "Use $architecture-dot-net-win-client to design or review a modular .NET client-server application."

@@ -1,0 +1,66 @@
+1. die Sprache der Oberfläche ist für den User umschaltbar zwischen Englisch (EN) und Deutsch (DE)
+2. die default Sprache der Oberfläche ist Englisch (EN)
+3. Das Umschalten der Sprache DE | EN soll als kleiner aber deutlich sichtbarer klickbarer Text oben rechts in der GUI angezeigt werden
+4. die gerade aktive Sprache wird dadurch angezeigt, dass der klickbare Text DE oder EN highlighted und noch sichtbar ist
+5. vertikal ausgerichtet am goldenen Schnitt befindet sich horizontal zentriert ein Eingabefeld für die Zahleneingaben des Users
+6. das Eingabefeld soll so breit sein, dass es mindestens 50 Zeichen tragen könnte; seine Höhe orientiert sich an der Höhe der eingestellten Schriftart.
+7. neben dem Eingabefeld wird die aktuelle currency für EN "$" oder für DE "€" angezeigt, je nach dem ob EN oder DE als Sprache in der Oberfläche ausgewählt ist. Ist es EN und "$", befindet sich die currency links neben dem Eingabefeld, also vor der Zahl. Ist es DE und "€", befindet sich die currency rechts neben dem Eingabefeld, also nach der Zahl. 
+8. Zeichen und Format im Eingabefeld
+a. Zulässige Eingabezeichen
+- Das Eingabefeld akzeptiert ausschließlich die Zeichen 0–9 und Komma (,)
+- Vom Benutzer eingegebene Leerzeichen werden ignoriert
+b. Grundformat (Pattern)
+Der eingegebene Wert muss folgendem Format entsprechen: [1–9 Ziffern] [optional: "," [1–2 Ziffern]]
+- Maximalwert: 999 999 999,99
+- Minimalwert: 0 
+- Nur ein Komma ist erlaubt
+c. Regeln für das Komma
+- Ein Komma darf nur einmal vorkommen
+- Ein Komma muss vor und nach sich jeweils eine Ziffer haben 
+  Gültig: "0,3", "12,00", "000,5"
+  Ungültig: ",3", "3,", ",", ",,"
+d. Tausendertrennzeichen (Darstellung)
+- Bei der Darstellung werden automatisch Leerzeichen als Tausendertrennzeichen eingefügt: Nach jeweils drei Ziffern vor dem Komma
+- Beispiele:
+  - Eingabe: "67890" → Darstellung: "67 890"
+  - Eingabe: "2546,36" → Darstellung: "2 546,36"
+- Wenn direkt nach drei Ziffern ein Komma folgt, kein Leerzeichen einfügen:  
+  "123,45" bleibt "123,45"
+e. Copy/Paste-Verhalten
+- Eingefügte Werte wie "1 234,56" werden automatisch bereinigt:
+  - Alle Leerzeichen werden entfernt
+  - Der Wert wird anschließend gemäß den Regeln neu formatiert
+- Ungültige Einfügeoperationen (z. B. "12,,34", "abc", "12.34") werden nicht angenommen
+f. Cursor-Verhalten (UX-Empfehlung)
+- Beim automatischen Einfügen von Tausendertrennzeichen wird der Cursor logisch weitergeführt, sodass der Benutzer ohne Sprünge weiter tippen kann.
+- Beim Löschen von Zeichen:
+  - Wenn ein Tausendertrennzeichen automatisch entfernt wird, springt der Cursor nicht zurück, sondern bleibt an der erwarteten Position.
+- Beim Einfügen eines Kommas:
+  - Der Cursor bleibt direkt hinter dem Komma, damit der Benutzer die Nachkommastellen eingeben kann.
+g. Minimalanforderung
+- Das Eingabefeld muss mindestens eine Ziffer enthalten können
+- Ein einzelnes Komma ist nicht zulässig
+h. Platzhalter / Pattern-Hinweis
+- Das Eingabefeld zeigt ein hellgraues Platzhalterformat:  
+  "123 456 789,12"  
+  (rein visuell, keine Validierung durch den Platzhalter)
+9. Validierung: gibt der User unzulässige Zeichen in das Eingabefeld ein, soll unter dem Eingabefeld ein kleiner akzentuierter Hinweistext zu den erlaubten Zeichen erscheinen.
+10. Validierung: gibt der User ein ungültiges Format in das Eingabefeld ein, soll unter dem Eingabefeld ein kleiner akzentuierter Hinweistext zum erlaubten Format erscheinen.
+11. unter dem Eingabefeld und dem Platz für einen potentiellen Hinweistext befindet sich ein Umwandlungs-Button (links aligned am Eingabefeld) mit dem Text "Convert" für EN bzw. "Umwandeln" für DE
+12. wenn Format und Zeichen im Eingabefeld den Anforderungen entsprechen, ist der Umwandlungs-Button aktiv, sprich eine Umwandlung kann durch den User getriggert werden
+13. wenn Format und Zeichen im Eingabefeld den Anforderungen nicht entsprechen, ist der Umwandlungs-Button deaktiviert, sprich eine Umwandlung kann durch den User nicht getriggert werden
+14. im deaktivierten Zustand ist der Umwandlungs-Button leicht transparent dargestellt
+15. der Zustand des Umwandlungs-Button richtet sich nach der Eingabe im Eingabefeld
+16. Der User kann über einen aktiven Umwandlungs-Button die Umwandlungslogk triggern
+17. Liefert die Umwandlungslogik ein Ergebnis, erfolgt die Ausgabe in einem Ausgabefeld
+18. wenn die Umwandlungsogik bzw. der Server nicht erreichbar ist, soll rechts neben dem Umwandlungs-Button ein kleiner deutlicher Hinweistext erscheinen, dass der Server nicht erreichbar ist.
+19. unter dem Umwandlungs-Button befindet sich das Ausgabefeld. Es ist links alinged am Eingabefeld. Die Breite ist wie beim Eingabefeld. Die Höhe ist jedoch so groß, dass es das Zahlenwort "nine hundred ninety-nine million nine hundred ninety nine thousand nine hundred ninety-nine dollars and ninety-nine cents" sichtbar darstellen kann + ein bisschen Puffer nach oben.
+20. Im Ausgabenfeld darf das Zahlenwort an Leerzeichen umgebrochen werden, damit es ins Feld passt
+21. Halte das Ausgabefeld leer bis ein Ergebnis angezeigt wird
+22. Wenn der User die Sprache in der Oberfläche umstellt, wird das Ausgabefeld geleert, die Zwichen im Eingabefeld bleiben erhalten.
+23. Über dem Eingabefeld soll ein kleiner Einleitungstext in etwas größerer Schriftgröße stehen in der folgenden Art: "Mit dieser Anwendung können Sie... Tippen Sie eine Zahl in das Eingabefeld. Wenn Sie fertig sind, drücken Sie den Button Umwandeln. Ihren Geldbetrag in Worten finden Sie anschließend im Ausgabefeld." Es muss ein deutscher Text dargestellt werden, wenn die Sprache auf DE eingestellt ist. Es muss ein englischer Text dargestellt werden, wenn die Sprache auf EN eingestellt ist
+24. Es ist für den User möglich, den Geldbetrag in Worten im Ausgabefeld zu markieren und per Kontextmenü oder Ctrl+C zu kopieren.
+25. Das Ausgabefeld dient nur der Ausgabe, der User kann darin keine Eingaben tätigen.
+26. Es ist für den User möglich, die Zahl im Eingabefeld zu markieren und per Kontextmenü oder Ctrl+C zu kopieren.
+27. Das Eingabefeld hat einen kleinen Titel in einer neutralen Farbe nach der Art: "Eingabe Geldbetrag als Zahl". Der Text ist deutsch, wenn die Sprache DE eingestellt ist, und englisch, wenn die Sprache EN eingestellt ist.
+28. Das Ausgabefeld hat einen kleinen Titel in einer neutralen Farbe nach der Art: "Ausgabe Geldbetrag in Worten". Der Text ist deutsch, wenn die Sprache DE eingestellt ist, und englisch, wenn die Sprache EN eingestellt ist.
