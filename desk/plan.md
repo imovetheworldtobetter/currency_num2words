@@ -210,12 +210,34 @@ tests/myCurrencyMagic.IntegrationTests
    - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"` successfully.
    - Test result: 38 unit tests passed and 8 integration tests passed.
 
+10. Externalize configuration.
+   - Added client `appsettings.json`.
+   - Moved client server base URL to `ClientRuntime:ServerBaseAddress`.
+   - Moved client header name and value to `ClientRuntime`.
+   - Moved max retry attempts and timeout values to `ClientRuntime`.
+   - Copied client `appsettings.json` to the WPF output directory.
+   - Added typed client runtime options.
+   - Added typed client UI options.
+   - Moved EN/DE UI texts to `ClientUi`.
+   - Moved language-to-currency mapping to `ClientUi`.
+   - Kept currency explicitly set in client code when the language changes.
+   - Added server API options.
+   - Moved expected client header name and value to server `Api` configuration.
+   - Moved supported language and currency codes to server `Api` configuration.
+   - Added server `Urls` default for local port configuration.
+   - Added server logging options for file path, retention count, and flush interval.
+   - Kept protocol fallback constants in the shared contracts project.
+   - Added defensive de-duplication for configured server language and currency lists.
+   - Verified client config is copied to the WPF output directory.
+   - Smoke-tested a real server request after the configuration changes.
+   - Ran `dotnet restore myCurrencyMagic.sln` successfully.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
+   - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"` successfully.
+   - Test result: 38 unit tests passed and 8 integration tests passed.
+
 ### Next Todo
 
-10. Externalize configuration.
-   - Move server base URL, port, timeout, retry count, client header settings, supported languages, supported currencies, and UI texts into configuration files where practical.
-   - Keep defaults suitable for local development.
-   - Keep the design remote-server-ready without adding remote security in version 1.
+No planned implementation steps remain in this plan.
 
 ## Open Points / Issues For Later
 

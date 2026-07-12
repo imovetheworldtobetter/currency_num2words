@@ -1,19 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
+using myCurrencyMagic.Server.Configuration;
 using myCurrencyMagic.Server.Conversion;
 using myCurrencyMagic.Shared.Contracts;
 using Serilog;
 using Serilog.Events;
 
-Log.Logger = CreateLogger();
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .CreateLogger();
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    var apiOptions = builder.Configuration
+        .GetSection(ServerApiOptions.SectionName)
+        .Get<ServerApiOptions>() ?? new ServerApiOptions();
+
+    Log.Logger = CreateLogger(builder.Configuration);
 
     builder.Host.UseSerilog();
 
     builder.Services.AddOpenApi();
     builder.Services.AddProblemDetails();
+    builder.Services.AddSingleton(apiOptions);
     builder.Services.AddSingleton<INumberConversionRulesProvider, JsonNumberConversionRulesProvider>();
     builder.Services.AddSingleton<ICurrencyConverterService, CurrencyConverterService>();
 
@@ -37,24 +47,25 @@ try
             HttpContext httpContext,
             [FromBody] ConvertCurrencyRequest? request,
             ICurrencyConverterService converter,
+            ServerApiOptions apiConfiguration,
             ILogger<Program> logger) =>
         {
             logger.LogInformation("Convert request started. TraceId: {TraceId}", httpContext.TraceIdentifier);
 
-            if (!HasValidClientHeader(httpContext.Request))
+            if (!HasValidClientHeader(httpContext.Request, apiConfiguration))
             {
                 logger.LogWarning(
                     "Convert request rejected because client header {HeaderName} is missing or invalid. TraceId: {TraceId}",
-                    ApiHeaders.ClientHeaderName,
+                    apiConfiguration.ClientHeader.Name,
                     httpContext.TraceIdentifier);
 
                 return Results.Problem(
                     title: "Invalid client header.",
-                    detail: $"The required header '{ApiHeaders.ClientHeaderName}' is missing or invalid.",
+                    detail: $"The required header '{apiConfiguration.ClientHeader.Name}' is missing or invalid.",
                     statusCode: StatusCodes.Status401Unauthorized);
             }
 
-            var validationFailure = ValidateRequest(request);
+            var validationFailure = ValidateRequest(request, apiConfiguration);
             if (validationFailure is not null)
             {
                 logger.LogWarning(
@@ -115,8 +126,12 @@ finally
     Log.CloseAndFlush();
 }
 
-static Serilog.ILogger CreateLogger()
+static Serilog.ILogger CreateLogger(IConfiguration configuration)
 {
+    var loggingOptions = configuration
+        .GetSection(ServerLoggingOptions.SectionName)
+        .Get<ServerLoggingOptions>() ?? new ServerLoggingOptions();
+
     return new LoggerConfiguration()
         .MinimumLevel.Information()
         .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -124,27 +139,27 @@ static Serilog.ILogger CreateLogger()
         .Enrich.FromLogContext()
         .WriteTo.Console()
         .WriteTo.File(
-            path: "logs/log-.txt",
+            path: loggingOptions.FilePath,
             rollingInterval: RollingInterval.Hour,
-            retainedFileCountLimit: 168,
+            retainedFileCountLimit: Math.Max(1, loggingOptions.RetainedFileCountLimit),
             buffered: false,
             shared: true,
-            flushToDiskInterval: TimeSpan.FromSeconds(1),
+            flushToDiskInterval: TimeSpan.FromSeconds(Math.Max(1, loggingOptions.FlushToDiskIntervalSeconds)),
             outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
         .CreateLogger();
 }
 
-static bool HasValidClientHeader(HttpRequest request)
+static bool HasValidClientHeader(HttpRequest request, ServerApiOptions apiOptions)
 {
-    return request.Headers.TryGetValue(ApiHeaders.ClientHeaderName, out var headerValues)
+    return request.Headers.TryGetValue(apiOptions.ClientHeader.Name, out var headerValues)
         && headerValues.Count == 1
         && string.Equals(
             headerValues[0],
-            ApiHeaders.DefaultClientHeaderValue,
+            apiOptions.ClientHeader.ExpectedValue,
             StringComparison.Ordinal);
 }
 
-static ValidationFailure? ValidateRequest(ConvertCurrencyRequest? request)
+static ValidationFailure? ValidateRequest(ConvertCurrencyRequest? request, ServerApiOptions apiOptions)
 {
     if (request is null)
     {
@@ -166,14 +181,14 @@ static ValidationFailure? ValidateRequest(ConvertCurrencyRequest? request)
         return CreateValidationFailure("The amount field is required.");
     }
 
-    if (!IsSupportedLanguage(request.Language))
+    if (!apiOptions.IsSupportedLanguage(request.Language))
     {
-        return CreateValidationFailure("The language field must be 'en' or 'de'.");
+        return CreateValidationFailure($"The language field must be {apiOptions.SupportedLanguagesMessage}.");
     }
 
-    if (!IsSupportedCurrency(request.Currency))
+    if (!apiOptions.IsSupportedCurrency(request.Currency))
     {
-        return CreateValidationFailure("The currency field must be 'USD' or 'EUR'.");
+        return CreateValidationFailure($"The currency field must be {apiOptions.SupportedCurrenciesMessage}.");
     }
 
     return null;
@@ -187,18 +202,6 @@ static ValidationFailure CreateValidationFailure(string detail)
             title: "Invalid conversion request.",
             detail: detail,
             statusCode: StatusCodes.Status400BadRequest));
-}
-
-static bool IsSupportedLanguage(string language)
-{
-    return string.Equals(language, LanguageCodes.English, StringComparison.OrdinalIgnoreCase)
-        || string.Equals(language, LanguageCodes.German, StringComparison.OrdinalIgnoreCase);
-}
-
-static bool IsSupportedCurrency(string currency)
-{
-    return string.Equals(currency, CurrencyCodes.UsDollar, StringComparison.OrdinalIgnoreCase)
-        || string.Equals(currency, CurrencyCodes.Euro, StringComparison.OrdinalIgnoreCase);
 }
 
 internal sealed record ValidationFailure(string Detail, IResult Result);

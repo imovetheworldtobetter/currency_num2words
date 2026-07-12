@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using myCurrencyMagic.Client.Configuration;
 using myCurrencyMagic.Client.Infrastructure;
 using myCurrencyMagic.Client.Input;
 using myCurrencyMagic.Client.Services;
@@ -10,18 +11,25 @@ public sealed class MainWindowViewModel : ObservableObject
 {
     private readonly ICurrencyConversionClient _client;
     private readonly AmountInputFormatter _formatter;
-    private string _language = LanguageCodes.English;
-    private string _currency = CurrencyCodes.UsDollar;
+    private readonly ClientUiOptions _uiOptions;
+    private string _language;
+    private string _currency;
     private string _amountText = string.Empty;
     private string? _validationMessage;
     private string? _serverMessage;
     private string _outputText = string.Empty;
     private bool _isConverting;
 
-    public MainWindowViewModel(ICurrencyConversionClient client, AmountInputFormatter formatter)
+    public MainWindowViewModel(
+        ICurrencyConversionClient client,
+        AmountInputFormatter formatter,
+        ClientUiOptions uiOptions)
     {
         _client = client;
         _formatter = formatter;
+        _uiOptions = uiOptions;
+        _language = _uiOptions.DefaultLanguage;
+        _currency = CurrentLanguageOptions.Currency;
         SwitchToEnglishCommand = new RelayCommand(SwitchToEnglish);
         SwitchToGermanCommand = new RelayCommand(SwitchToGerman);
         ConvertCommand = new AsyncRelayCommand(ConvertAsync, CanConvert);
@@ -97,21 +105,19 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public bool IsInputEmpty => string.IsNullOrEmpty(AmountText);
 
-    public string CurrencySymbol => _currency == CurrencyCodes.Euro ? "€" : "$";
+    public string CurrencySymbol => CurrentLanguageOptions.CurrencySymbol;
 
-    public bool IsCurrencyLeading => _currency == CurrencyCodes.UsDollar;
+    public bool IsCurrencyLeading => CurrentLanguageOptions.IsCurrencyLeading;
 
-    public bool IsCurrencyTrailing => _currency == CurrencyCodes.Euro;
+    public bool IsCurrencyTrailing => !CurrentLanguageOptions.IsCurrencyLeading;
 
-    public string IntroText => IsGermanActive
-        ? "Mit dieser Anwendung können Sie einen Geldbetrag als Zahl eingeben und in Worte umwandeln. Tippen Sie eine Zahl in das Eingabefeld. Wenn Sie fertig sind, drücken Sie Umwandeln. Ihren Geldbetrag in Worten finden Sie anschließend im Ausgabefeld."
-        : "Use this application to convert a numeric currency amount into words. Type a number into the input field. When you are done, press Convert. The amount in words appears in the output field.";
+    public string IntroText => CurrentTexts.IntroText;
 
-    public string InputTitle => IsGermanActive ? "Eingabe Geldbetrag als Zahl" : "Input currency amount as number";
+    public string InputTitle => CurrentTexts.InputTitle;
 
-    public string OutputTitle => IsGermanActive ? "Ausgabe Geldbetrag in Worten" : "Output currency amount in words";
+    public string OutputTitle => CurrentTexts.OutputTitle;
 
-    public string ConvertButtonText => IsGermanActive ? "Umwandeln" : "Convert";
+    public string ConvertButtonText => CurrentTexts.ConvertButtonText;
 
     public string PlaceholderText => "123 456 789,12";
 
@@ -140,14 +146,14 @@ public sealed class MainWindowViewModel : ObservableObject
 
     public void ShowInvalidCharacterMessage()
     {
-        ValidationMessage = "Allowed characters: digits 0-9 and comma.";
+        ValidationMessage = CurrentTexts.InvalidCharacterMessage;
         ServerMessage = null;
         ConvertCommand.RaiseCanExecuteChanged();
     }
 
     public void ShowInvalidFormatMessage()
     {
-        ValidationMessage = "Use the format 123 456 789,12.";
+        ValidationMessage = CurrentTexts.InvalidFormatMessage;
         ServerMessage = null;
         ConvertCommand.RaiseCanExecuteChanged();
     }
@@ -173,9 +179,7 @@ public sealed class MainWindowViewModel : ObservableObject
         }
         catch (CurrencyConversionClientException)
         {
-            ServerMessage = IsGermanActive
-                ? "Der Server ist nicht erreichbar oder konnte die Anfrage nicht verarbeiten."
-                : "The server is not reachable or could not process the request.";
+            ServerMessage = CurrentTexts.ServerErrorMessage;
         }
         finally
         {
@@ -185,18 +189,18 @@ public sealed class MainWindowViewModel : ObservableObject
 
     private void SwitchToEnglish()
     {
-        SetLanguage(LanguageCodes.English, CurrencyCodes.UsDollar);
+        SetLanguage(LanguageCodes.English);
     }
 
     private void SwitchToGerman()
     {
-        SetLanguage(LanguageCodes.German, CurrencyCodes.Euro);
+        SetLanguage(LanguageCodes.German);
     }
 
-    private void SetLanguage(string language, string currency)
+    private void SetLanguage(string language)
     {
         _language = language;
-        _currency = currency;
+        _currency = CurrentLanguageOptions.Currency;
         OutputText = string.Empty;
         ServerMessage = null;
 
@@ -214,4 +218,8 @@ public sealed class MainWindowViewModel : ObservableObject
         ((RelayCommand)SwitchToGermanCommand).RaiseCanExecuteChanged();
         ConvertCommand.RaiseCanExecuteChanged();
     }
+
+    private ClientLanguageUiOptions CurrentLanguageOptions => _uiOptions.GetLanguage(_language);
+
+    private ClientTextOptions CurrentTexts => CurrentLanguageOptions.Texts;
 }

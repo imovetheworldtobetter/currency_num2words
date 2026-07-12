@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
+using myCurrencyMagic.Client.Configuration;
 using myCurrencyMagic.Shared.Contracts;
 
 namespace myCurrencyMagic.Client.Services;
@@ -8,10 +9,12 @@ namespace myCurrencyMagic.Client.Services;
 public sealed class CurrencyConversionClient : ICurrencyConversionClient
 {
     private readonly HttpClient _httpClient;
+    private readonly ClientRuntimeOptions _options;
 
-    public CurrencyConversionClient(HttpClient httpClient)
+    public CurrencyConversionClient(HttpClient httpClient, ClientRuntimeOptions options)
     {
         _httpClient = httpClient;
+        _options = options;
     }
 
     public async Task<ConvertCurrencyResponse> ConvertAsync(ConvertCurrencyRequest request, CancellationToken cancellationToken)
@@ -20,7 +23,7 @@ public sealed class CurrencyConversionClient : ICurrencyConversionClient
         {
             Content = JsonContent.Create(request)
         };
-        httpRequest.Headers.Add(ApiHeaders.ClientHeaderName, ApiHeaders.DefaultClientHeaderValue);
+        httpRequest.Headers.Add(_options.ClientHeaderName, _options.ClientHeaderValue);
 
         try
         {

@@ -1,6 +1,7 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using myCurrencyMagic.Client.Configuration;
@@ -42,8 +43,15 @@ public partial class App : Application
     private static IHost CreateHost()
     {
         var builder = Host.CreateApplicationBuilder();
+        var runtimeOptions = builder.Configuration
+            .GetSection(ClientRuntimeOptions.SectionName)
+            .Get<ClientRuntimeOptions>() ?? new ClientRuntimeOptions();
+        var uiOptions = builder.Configuration
+            .GetSection(ClientUiOptions.SectionName)
+            .Get<ClientUiOptions>() ?? new ClientUiOptions();
 
-        builder.Services.AddSingleton<ClientRuntimeOptions>();
+        builder.Services.AddSingleton(runtimeOptions);
+        builder.Services.AddSingleton(uiOptions);
         builder.Services.AddSingleton<AmountInputFormatter>();
         builder.Services.AddTransient<MainWindowViewModel>();
         builder.Services.AddTransient<MainWindow>();
@@ -57,9 +65,9 @@ public partial class App : Application
             })
             .AddStandardResilienceHandler(options =>
             {
-                options.Retry.MaxRetryAttempts = 3;
-                options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(5);
-                options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(20);
+                options.Retry.MaxRetryAttempts = runtimeOptions.MaxRetryAttempts;
+                options.AttemptTimeout.Timeout = runtimeOptions.AttemptTimeout;
+                options.TotalRequestTimeout.Timeout = runtimeOptions.TotalRequestTimeout;
             });
 
         return builder.Build();
