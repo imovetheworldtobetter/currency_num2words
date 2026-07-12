@@ -1,0 +1,288 @@
+﻿<Window x:Class="myCurrencyMagic.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        mc:Ignorable="d"
+        Title="myCurrencyMagic"
+        Width="1040"
+        Height="720"
+        MinWidth="720"
+        MinHeight="560"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        Background="#FFFFFF">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="44"
+                            ResizeBorderThickness="7"
+                            CornerRadius="0"
+                            GlassFrameThickness="0"
+                            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <SolidColorBrush x:Key="ThemePurpleBrush" Color="#41007F" />
+        <SolidColorBrush x:Key="AccentBlueVioletBrush" Color="#AA1DD5" />
+        <SolidColorBrush x:Key="PrimaryTextBlueBrush" Color="#0057B8" />
+        <SolidColorBrush x:Key="SecondaryTextGrayBrush" Color="#333333" />
+
+        <Style x:Key="AngularTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="{StaticResource ThemePurpleBrush}" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="Foreground" Value="{StaticResource SecondaryTextGrayBrush}" />
+            <Setter Property="CaretBrush" Value="{StaticResource ThemePurpleBrush}" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="MinHeight" Value="44" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFFF" />
+            <Setter Property="BorderBrush" Value="{StaticResource ThemePurpleBrush}" />
+            <Setter Property="BorderThickness" Value="1.5" />
+            <Setter Property="Foreground" Value="{StaticResource PrimaryTextBlueBrush}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Padding" Value="22,10" />
+            <Setter Property="MinWidth" Value="128" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#F5F5F5" />
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{StaticResource AccentBlueVioletBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="ButtonBorder" Property="Opacity" Value="0.48" />
+                                <Setter Property="Cursor" Value="Arrow" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LanguageButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="8,3" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="True">
+                    <Setter Property="Background" Value="#FFFFFF" />
+                    <Setter Property="Foreground" Value="{StaticResource ThemePurpleBrush}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ChromeButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="44" />
+            <Setter Property="Height" Value="36" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="shell:WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#33FFFFFF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              MouseLeftButtonDown="Header_MouseLeftButtonDown">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#41007F" Offset="0" />
+                    <GradientStop Color="#0057B8" Offset="0.55" />
+                    <GradientStop Color="#AA1DD5" Offset="1" />
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Text="myCurrencyMagic"
+                       VerticalAlignment="Center"
+                       Margin="18,0,0,0"
+                       Foreground="#FFFFFF"
+                       FontWeight="SemiBold"
+                       FontSize="15" />
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Margin="0,0,14,0">
+                <Button Content="DE"
+                        Command="{Binding SwitchToGermanCommand}"
+                        Tag="{Binding IsGermanActive}"
+                        Style="{StaticResource LanguageButtonStyle}" />
+                <TextBlock Text="|"
+                           Foreground="#CCFFFFFF"
+                           VerticalAlignment="Center"
+                           Margin="4,0" />
+                <Button Content="EN"
+                        Command="{Binding SwitchToEnglishCommand}"
+                        Tag="{Binding IsEnglishActive}"
+                        Style="{StaticResource LanguageButtonStyle}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal">
+                <Button Content="-"
+                        Style="{StaticResource ChromeButtonStyle}"
+                        Click="Minimize_Click" />
+                <Button Content="x"
+                        Style="{StaticResource ChromeButtonStyle}"
+                        Click="Close_Click" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Background="#FFFFFF">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.05*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1.65*" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="1"
+                        Width="680"
+                        MaxWidth="680"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="{Binding IntroText}"
+                           Foreground="{StaticResource PrimaryTextBlueBrush}"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           TextWrapping="Wrap"
+                           LineHeight="26"
+                           Margin="0,0,0,28" />
+
+                <TextBlock Text="{Binding InputTitle}"
+                           Foreground="{StaticResource SecondaryTextGrayBrush}"
+                           FontSize="13"
+                           Margin="0,0,0,6" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding CurrencySymbol}"
+                               Visibility="{Binding IsCurrencyLeading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               Foreground="{StaticResource ThemePurpleBrush}"
+                               FontWeight="SemiBold"
+                               FontSize="24"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0" />
+
+                    <Grid Grid.Column="1">
+                        <TextBox x:Name="AmountTextBox"
+                                 Style="{StaticResource AngularTextBoxStyle}"
+                                 TextChanged="AmountTextBox_TextChanged"
+                                 PreviewTextInput="AmountTextBox_PreviewTextInput" />
+                        <TextBlock Text="{Binding PlaceholderText}"
+                                   Foreground="#8A8A8A"
+                                   FontSize="18"
+                                   Padding="13,9"
+                                   IsHitTestVisible="False">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=AmountTextBox}" Value="">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding CurrencySymbol}"
+                               Visibility="{Binding IsCurrencyTrailing, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               Foreground="{StaticResource ThemePurpleBrush}"
+                               FontWeight="SemiBold"
+                               FontSize="24"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0" />
+                </Grid>
+
+                <TextBlock Text="{Binding ValidationMessage}"
+                           Visibility="{Binding HasValidationMessage, Converter={StaticResource BooleanToVisibilityConverter}}"
+                           Foreground="{StaticResource AccentBlueVioletBrush}"
+                           FontSize="12"
+                           Margin="0,7,0,0" />
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,22,0,0"
+                            VerticalAlignment="Center">
+                    <Button Content="{Binding ConvertButtonText}"
+                            Command="{Binding ConvertCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}" />
+                    <TextBlock Text="{Binding ServerMessage}"
+                               Visibility="{Binding HasServerMessage, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               Foreground="{StaticResource AccentBlueVioletBrush}"
+                               FontWeight="SemiBold"
+                               FontSize="12"
+                               TextWrapping="Wrap"
+                               MaxWidth="430"
+                               VerticalAlignment="Center"
+                               Margin="16,0,0,0" />
+                </StackPanel>
+
+                <TextBlock Text="{Binding OutputTitle}"
+                           Foreground="{StaticResource SecondaryTextGrayBrush}"
+                           FontSize="13"
+                           Margin="0,28,0,6" />
+
+                <TextBox Text="{Binding OutputText, Mode=OneWay}"
+                         Style="{StaticResource AngularTextBoxStyle}"
+                         Height="128"
+                         IsReadOnly="True"
+                         TextWrapping="Wrap"
+                         VerticalContentAlignment="Top"
+                         AcceptsReturn="True"
+                         Cursor="IBeam" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

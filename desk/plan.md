@@ -83,13 +83,13 @@ Errors use ASP.NET Core `ProblemDetails`.
    - Workspace structure and key assets checked.
    - JSON assets parse successfully.
    - UTF-8 handling for German umlauts and sharp s is confirmed.
-   - `dotnet --info` currently defaults to SDK 10.0.301 because no `global.json` exists yet.
-
-### Next Todo
+   - Before `global.json` was created, `dotnet --info` defaulted to SDK 10.0.301.
 
 2. Create solution and projects.
-   - Create classic Visual Studio compatible `myCurrencyMagic.sln`.
-   - Create:
+   - Created `global.json` in the workspace root to pin SDK 9.0.315.
+   - Confirmed `dotnet --version` resolves to 9.0.315 in the workspace.
+   - Created classic Visual Studio compatible `myCurrencyMagic.sln`.
+   - Created:
 
 ```text
 src/myCurrencyMagic.Shared
@@ -99,38 +99,65 @@ tests/myCurrencyMagic.UnitTests
 tests/myCurrencyMagic.IntegrationTests
 ```
 
-   - Add project references.
+   - Added all projects to the solution.
+   - Added project references:
+     - `myCurrencyMagic.Server` -> `myCurrencyMagic.Shared`
+     - `myCurrencyMagic.Client` -> `myCurrencyMagic.Shared`
+     - `myCurrencyMagic.UnitTests` -> `myCurrencyMagic.Server`
+     - `myCurrencyMagic.IntegrationTests` -> `myCurrencyMagic.Server`
+   - Verified `myCurrencyMagic.Client` targets `net9.0-windows` and uses WPF.
+   - Ran `dotnet restore myCurrencyMagic.sln` successfully.
+   - Ran `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
    - Stop after this step so the solution can be opened and manually checked in Visual Studio Community.
 
 3. Define shared contracts.
-   - Add request and response DTOs.
-   - Add shared language and currency models.
-   - Keep shared code free of business logic.
+   - Added `ConvertCurrencyRequest` with `Language`, `Currency`, and `Amount`.
+   - Added `ConvertCurrencyResponse` with `AmountInWords`, `NormalizedAmount`, `Language`, and `Currency`.
+   - Added shared contract constants for API route, client header name, language codes, and currency codes.
+   - Removed the generated `Class1.cs` placeholder from the Shared project.
+   - Kept shared code free of business logic.
+   - Ran `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
 
 4. Create Minimal API server.
-   - Add `POST /convert`.
-   - Accept `language`, `currency`, and `amount`.
-   - Validate the lightweight client header.
-   - Return `ProblemDetails` for errors.
+   - Replaced the template `/weatherforecast` endpoint with `POST /convert`.
+   - The endpoint accepts `language`, `currency`, and `amount` through `ConvertCurrencyRequest`.
+   - The endpoint validates the lightweight client header `X-myCurrencyMagic-Client`.
+   - The endpoint validates required fields and supported initial language/currency codes.
+   - The endpoint returns `ProblemDetails` for validation and header errors.
+   - The endpoint deliberately returns `501 Not Implemented` until `CurrencyConverterService` is implemented in step 5.
+   - Updated `myCurrencyMagic.Server.http` with a `POST /convert` example.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
 
 5. Implement conversion service.
-   - Add `CurrencyConverterService`.
-   - Combine algorithmic conversion code with maintainable rule/table data.
-   - Load rule/table data at server startup where useful.
-   - Correctly handle German umlauts and sharp s.
-   - Correctly handle `eintausend` and `zweitausend`.
-   - Correctly handle `eine Million` and `zwei Millionen`.
-   - Use US English wording.
-   - Defensively normalize inputs such as `7,` to `7,00` even though the GUI should not send them.
+   - Added server-side `CurrencyConverterService`.
+   - Added conversion service interfaces and JSON numeric-rule provider.
+   - Linked `dev_assets/rules_numeric_conversion.json` into the server output as UTF-8 content.
+   - Combined algorithmic conversion code with loaded numeric rule tables.
+   - Wired `/convert` to return `ConvertCurrencyResponse` instead of the temporary `501 Not Implemented`.
+   - Applied semantic normalization rules for spaces, leading zeros, and decimal zero-padding.
+   - Correctly handles German umlauts and sharp s from the UTF-8 rule file.
+   - Correctly handles `ein Euro`, `eintausend`, `zweitausend`, `eine Million`, and `zwei Millionen`.
+   - Uses US English wording with hyphens for compound tens.
+   - Defensively normalizes inputs such as `7,` to `7,00` even though the GUI should not send them.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
+   - Smoke-tested `/convert` on a temporary local port for German and English conversion cases.
 
 6. Create WPF client.
-   - Implement custom window chrome.
-   - Implement language switch EN/DE.
-   - Set currency explicitly from selected language.
-   - Validate and format the amount input.
-   - Send HTTP requests with the client header.
-   - Use timeout and max 3 retries through `Microsoft.Extensions.Http.Resilience`.
-   - Display conversion results and server connectivity errors.
+   - Added WPF dependency injection through `Microsoft.Extensions.Hosting`.
+   - Added HTTP client factory and `Microsoft.Extensions.Http.Resilience`.
+   - Implemented custom window chrome with purple-blue-violet gradient header.
+   - Implemented EN/DE language switch in the top-right header area.
+   - Set currency explicitly from selected language: EN -> USD, DE -> EUR.
+   - Implemented amount input formatting with spaces as thousands separators.
+   - Implemented input validation for allowed characters, format, comma rules, decimal length, and maximum value.
+   - Implemented paste rejection for invalid character and invalid format cases.
+   - Implemented client HTTP calls to `/convert` with `X-myCurrencyMagic-Client`.
+   - Configured timeout behavior and max 3 retries through `Microsoft.Extensions.Http.Resilience`.
+   - Implemented result display and server/connectivity error messaging.
+   - Kept conversion business logic on the server.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
+
+### Next Todo
 
 7. Create tests.
    - Add unit tests for `CurrencyConverterService`.

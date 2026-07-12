@@ -1,0 +1,14 @@
+@myCurrencyMagic.Server_HostAddress = http://localhost:5034
+
+POST {{myCurrencyMagic.Server_HostAddress}}/convert
+Accept: application/json
+Content-Type: application/json
+X-myCurrencyMagic-Client: myCurrencyMagic.Client
+
+{
+  "language": "de",
+  "currency": "EUR",
+  "amount": "1 234,56"
+}
+
+###
