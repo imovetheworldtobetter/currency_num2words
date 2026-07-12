@@ -29,7 +29,7 @@
       "id": "strip_leading_zeros_integer",
       "if": "integer_part starts with zeros and integer_part != '0'",
 	  "then": "remove all leading zeros"
-	}
+	},
     {
       "id": "normalize_decimal",
       "if": "input contains comma",
