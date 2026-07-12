@@ -157,13 +157,21 @@ tests/myCurrencyMagic.IntegrationTests
    - Kept conversion business logic on the server.
    - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
 
-### Next Todo
-
 7. Create tests.
-   - Add unit tests for `CurrencyConverterService`.
-   - Add integration tests for `/convert`.
-   - Cover routing, JSON serialization, header validation, DI, success cases, and error cases.
-   - Use the provided `dev_assets/test_cases.md` cases and add focused edge cases where useful.
+   - Added unit tests for `CurrencyConverterService`.
+   - Unit tests avoid API hosting and HTTP calls.
+   - Unit tests cover German and English conversion cases from `dev_assets/test_cases.md`.
+   - Unit tests cover normalization, leading zeros, decimal zero-padding, German umlauts, sharp s, currency singular/plural behavior, and German thousand/million special cases.
+   - Unit tests cover invalid service requests.
+   - Added `Microsoft.AspNetCore.Mvc.Testing` and `FluentAssertions` to the integration test project.
+   - Added integration tests for `POST /convert`.
+   - Integration tests start the API in-memory with `WebApplicationFactory<Program>`.
+   - Integration tests cover routing, JSON serialization, header validation, DI wiring, success responses, API validation errors, and conversion-service validation errors.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
+   - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=normal"` successfully.
+   - Test result: 38 unit tests passed and 8 integration tests passed.
+
+### Next Todo
 
 8. First validation.
    - Run `dotnet restore`.
