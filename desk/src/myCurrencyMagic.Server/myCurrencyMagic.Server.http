@@ -7,7 +7,7 @@ X-myCurrencyMagic-Client: myCurrencyMagic.Client
 
 {
   "language": "de",
-  "currency": "EUR",
+  "currency": "USD",
   "amount": "1 234,56"
 }
 

@@ -23,7 +23,8 @@ The Windows client provides the user interface. The local ASP.NET Core Minimal A
 - Use US English number wording.
 - Send `language`, `currency`, and `amount` from client to server.
 - Set `currency` explicitly in client code based on the selected UI language.
-- Keep the currency model extensible so a later UI control can choose currency independently.
+- Keep the currency model extensible so a later UI control can choose additional currencies independently.
+- Use USD as the only currently supported currency.
 - Use the client header `X-myCurrencyMagic-Client`.
 - Do not implement loopback-only request checks in the first version.
 - Treat the client header as a lightweight marker, not as strong security.
@@ -45,7 +46,7 @@ Request:
 ```json
 {
   "language": "de",
-  "currency": "EUR",
+  "currency": "USD",
   "amount": "1 234,56"
 }
 ```
@@ -54,10 +55,10 @@ Successful response:
 
 ```json
 {
-  "amountInWords": "eintausend zweihundertvierunddreißig Euro und sechsundfünfzig Cent",
+  "amountInWords": "eintausendzweihundertvierunddreißig Dollar und sechsundfünfzig Cent",
   "normalizedAmount": "1234,56",
   "language": "de",
-  "currency": "EUR"
+  "currency": "USD"
 }
 ```
 
@@ -136,7 +137,7 @@ tests/myCurrencyMagic.IntegrationTests
    - Wired `/convert` to return `ConvertCurrencyResponse` instead of the temporary `501 Not Implemented`.
    - Applied semantic normalization rules for spaces, leading zeros, and decimal zero-padding.
    - Correctly handles German umlauts and sharp s from the UTF-8 rule file.
-   - Correctly handles `ein Euro`, `eintausend`, `zweitausend`, `eine Million`, and `zwei Millionen`.
+   - Correctly handles `ein Dollar`, `eintausend`, `zweitausend`, `eine Million`, and `zwei Millionen`.
    - Uses US English wording with hyphens for compound tens.
    - Defensively normalizes inputs such as `7,` to `7,00` even though the GUI should not send them.
    - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
@@ -147,7 +148,7 @@ tests/myCurrencyMagic.IntegrationTests
    - Added HTTP client factory and `Microsoft.Extensions.Http.Resilience`.
    - Implemented custom window chrome with purple-blue-violet gradient header.
    - Implemented EN/DE language switch in the top-right header area.
-   - Set currency explicitly from selected language: EN -> USD, DE -> EUR.
+   - Set currency explicitly from selected language: EN -> USD, DE -> USD.
    - Implemented amount input formatting with spaces as thousands separators.
    - Implemented input validation for allowed characters, format, comma rules, decimal length, and maximum value.
    - Implemented paste rejection for invalid character and invalid format cases.
@@ -234,6 +235,21 @@ tests/myCurrencyMagic.IntegrationTests
    - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
    - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"` successfully.
    - Test result: 38 unit tests passed and 8 integration tests passed.
+
+12. Apply USD-only currency requirement.
+   - Removed previous non-USD currency support from code, configuration, documentation, requirements, semantic rules, and tests.
+   - Kept the `currency` request and response field for future currency extensibility.
+   - Configured both EN and DE UI language selections to send `USD`.
+   - Configured the GUI to show `$` on the left side for both EN and DE.
+   - Updated German output to use `Dollar` and `Cent`.
+   - Added German Dollar null-plural behavior: `ein Dollar`, `zwei Dollar`.
+   - Kept German number composition rules unchanged.
+   - Verified no previous non-USD currency references remain in README, assets, source, or tests.
+   - Ran `dotnet restore myCurrencyMagic.sln` successfully.
+   - Ran the requested escalated `dotnet build myCurrencyMagic.sln --no-restore -m:1 -nr:false /p:UseSharedCompilation=false` successfully.
+   - Ran the requested escalated `dotnet test myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal"` successfully.
+   - Test result: 37 unit tests passed and 8 integration tests passed.
+   - Smoke-tested real server requests for DE/USD and EN/USD successfully.
 
 ### Next Todo
 

@@ -5,10 +5,10 @@
       "if": "input contains space",
       "then": "interpret space as thousand separator"
     },
-	{
+    {
       "id": "DE_0_only",
       "if": "input == '0'",
-      "then": "output = 'null Euro'"
+      "then": "output = 'null Dollar'"
     },
     {
       "id": "EN_0_only",
@@ -18,7 +18,7 @@
 	{
 	  "id": "currency_parts_definition",
 	  "if": "input contains comma",
-	  "then": "the part before the comma represents main currency dollars or Euro, the part after the comma represents Cent"
+	  "then": "the part before the comma represents main currency dollars, the part after the comma represents Cent"
 	},
 	{
       "id": "normalize_leading_zeros_integer",
@@ -38,7 +38,7 @@
     {
       "id": "DE_no_comma",
       "if": "input has no comma",
-      "then": "output = '<number_word> Euro'"
+      "then": "output = '<number_word> Dollar'"
     },
     {
       "id": "EN_no_comma",
@@ -48,7 +48,7 @@
     {
       "id": "DE_with_comma",
       "if": "input has comma",
-      "then": "output = '<euro_word> Euro und <cent_word> Cent'"
+      "then": "output = '<dollar_word> Dollar und <cent_word> Cent'"
     },
     {
       "id": "EN_with_comma",
@@ -58,12 +58,12 @@
     {
       "id": "DE_singular_currency",
       "if": "language == 'de'",
-      "then": "Euro and Cent always singular"
+      "then": "Dollar and Cent always use null plural"
     },
     {
       "id": "DE_one_before_currency",
-      "if": "language == 'de' and number_word directly precedes Euro or Cent and value == 1",
-      "then": "use 'ein' before Euro or Cent, not 'eins'"
+      "if": "language == 'de' and number_word directly precedes Dollar or Cent and value == 1",
+      "then": "use 'ein' before Dollar or Cent, not 'eins'"
     },
     {
       "id": "EN_plural_currency",

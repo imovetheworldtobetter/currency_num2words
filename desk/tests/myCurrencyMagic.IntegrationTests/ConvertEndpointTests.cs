@@ -20,7 +20,7 @@ public sealed class ConvertEndpointTests : IClassFixture<WebApplicationFactory<P
     public async Task Convert_WithValidRequest_ReturnsSerializedConversionResponse()
     {
         using var client = _factory.CreateClient();
-        using var request = CreateConvertRequest(new ConvertCurrencyRequest("de", "EUR", "1 234,56"));
+        using var request = CreateConvertRequest(new ConvertCurrencyRequest("de", "USD", "1 234,56"));
 
         using var response = await client.SendAsync(request);
 
@@ -30,14 +30,14 @@ public sealed class ConvertEndpointTests : IClassFixture<WebApplicationFactory<P
         var json = await response.Content.ReadAsStringAsync();
         using var document = JsonDocument.Parse(json);
         document.RootElement.GetProperty("amountInWords").GetString()
-            .Should().Be("eintausendzweihundertvierunddreißig Euro und sechsundfünfzig Cent");
+            .Should().Be("eintausendzweihundertvierunddreißig Dollar und sechsundfünfzig Cent");
         document.RootElement.GetProperty("normalizedAmount").GetString().Should().Be("1234,56");
         document.RootElement.GetProperty("language").GetString().Should().Be("de");
-        document.RootElement.GetProperty("currency").GetString().Should().Be("EUR");
+        document.RootElement.GetProperty("currency").GetString().Should().Be("USD");
 
         var typedResponse = await response.Content.ReadFromJsonAsync<ConvertCurrencyResponse>();
         typedResponse.Should().NotBeNull();
-        typedResponse!.AmountInWords.Should().Be("eintausendzweihundertvierunddreißig Euro und sechsundfünfzig Cent");
+        typedResponse!.AmountInWords.Should().Be("eintausendzweihundertvierunddreißig Dollar und sechsundfünfzig Cent");
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public sealed class ConvertEndpointTests : IClassFixture<WebApplicationFactory<P
     [InlineData("", "USD", "57", "The language field is required.")]
     [InlineData("fr", "USD", "57", "The language field must be 'en' or 'de'.")]
     [InlineData("en", "", "57", "The currency field is required.")]
-    [InlineData("en", "GBP", "57", "The currency field must be 'USD' or 'EUR'.")]
+    [InlineData("en", "GBP", "57", "The currency field must be 'USD'.")]
     [InlineData("en", "USD", "", "The amount field is required.")]
     public async Task Convert_WithInvalidApiRequest_ReturnsBadRequestProblemDetails(
         string language,

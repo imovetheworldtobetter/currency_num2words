@@ -8,24 +8,24 @@ public sealed class CurrencyConverterServiceTests
     private readonly CurrencyConverterService _service = new(new TestNumberConversionRulesProvider());
 
     [Theory]
-    [InlineData("de", "EUR", "0", "null Euro", "0")]
-    [InlineData("de", "EUR", "1", "ein Euro", "1")]
-    [InlineData("de", "EUR", "33", "dreiunddreißig Euro", "33")]
-    [InlineData("de", "EUR", "700", "siebenhundert Euro", "700")]
-    [InlineData("de", "EUR", "14,05", "vierzehn Euro und fünf Cent", "14,05")]
-    [InlineData("de", "EUR", "0,50", "null Euro und fünfzig Cent", "0,50")]
-    [InlineData("de", "EUR", "33,00", "dreiunddreißig Euro und null Cent", "33,00")]
-    [InlineData("de", "EUR", "25,1", "fünfundzwanzig Euro und zehn Cent", "25,10")]
-    [InlineData("de", "EUR", "7,", "sieben Euro und null Cent", "7,00")]
-    [InlineData("de", "EUR", "0 000,09", "null Euro und neun Cent", "0,09")]
-    [InlineData("de", "EUR", "000 567,80", "fünfhundertsiebenundsechzig Euro und achtzig Cent", "567,80")]
-    [InlineData("de", "EUR", "33 700", "dreiunddreißigtausend siebenhundert Euro", "33700")]
-    [InlineData("de", "EUR", "1 000", "eintausend Euro", "1000")]
-    [InlineData("de", "EUR", "2 000", "zweitausend Euro", "2000")]
-    [InlineData("de", "EUR", "12 345", "zwölftausend dreihundertfünfundvierzig Euro", "12345")]
-    [InlineData("de", "EUR", "1 000 000", "eine Million Euro", "1000000")]
-    [InlineData("de", "EUR", "2 000 000", "zwei Millionen Euro", "2000000")]
-    [InlineData("de", "EUR", "1 234 567", "eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig Euro", "1234567")]
+    [InlineData("de", "USD", "0", "null Dollar", "0")]
+    [InlineData("de", "USD", "1", "ein Dollar", "1")]
+    [InlineData("de", "USD", "33", "dreiunddreißig Dollar", "33")]
+    [InlineData("de", "USD", "700", "siebenhundert Dollar", "700")]
+    [InlineData("de", "USD", "14,05", "vierzehn Dollar und fünf Cent", "14,05")]
+    [InlineData("de", "USD", "0,50", "null Dollar und fünfzig Cent", "0,50")]
+    [InlineData("de", "USD", "33,00", "dreiunddreißig Dollar und null Cent", "33,00")]
+    [InlineData("de", "USD", "25,1", "fünfundzwanzig Dollar und zehn Cent", "25,10")]
+    [InlineData("de", "USD", "7,", "sieben Dollar und null Cent", "7,00")]
+    [InlineData("de", "USD", "0 000,09", "null Dollar und neun Cent", "0,09")]
+    [InlineData("de", "USD", "000 567,80", "fünfhundertsiebenundsechzig Dollar und achtzig Cent", "567,80")]
+    [InlineData("de", "USD", "33 700", "dreiunddreißigtausend siebenhundert Dollar", "33700")]
+    [InlineData("de", "USD", "1 000", "eintausend Dollar", "1000")]
+    [InlineData("de", "USD", "2 000", "zweitausend Dollar", "2000")]
+    [InlineData("de", "USD", "12 345", "zwölftausend dreihundertfünfundvierzig Dollar", "12345")]
+    [InlineData("de", "USD", "1 000 000", "eine Million Dollar", "1000000")]
+    [InlineData("de", "USD", "2 000 000", "zwei Millionen Dollar", "2000000")]
+    [InlineData("de", "USD", "1 234 567", "eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig Dollar", "1234567")]
     public void Convert_ReturnsGermanCurrencyAmountInWords(
         string language,
         string currency,
@@ -38,7 +38,7 @@ public sealed class CurrencyConverterServiceTests
         Assert.Equal(expectedWords, response.AmountInWords);
         Assert.Equal(expectedNormalizedAmount, response.NormalizedAmount);
         Assert.Equal(LanguageCodes.German, response.Language);
-        Assert.Equal(CurrencyCodes.Euro, response.Currency);
+        Assert.Equal(CurrencyCodes.UsDollar, response.Currency);
     }
 
     [Theory]
@@ -69,11 +69,10 @@ public sealed class CurrencyConverterServiceTests
     }
 
     [Theory]
-    [InlineData("en", "EUR", "1", "one euro")]
-    [InlineData("en", "EUR", "2", "two euros")]
     [InlineData("de", "USD", "1", "ein Dollar")]
     [InlineData("de", "USD", "2", "zwei Dollar")]
-    public void Convert_KeepsLanguageAndCurrencyIndependent(
+    [InlineData("de", "USD", "33", "dreiunddreißig Dollar")]
+    public void Convert_ReturnsGermanDollarWithNullPlural(
         string language,
         string currency,
         string amount,

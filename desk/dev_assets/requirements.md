@@ -9,10 +9,10 @@
 5. The number input field must be horizontally centered and vertically positioned around the golden-ratio area of the window.
 6. The input field must be wide enough to hold at least 50 characters. Its height should follow the configured font size.
 7. The currently selected currency symbol must be displayed next to the input field.
-8. For the initial language-based behavior, English (EN) sets currency to USD and displays `$` on the left side of the input field.
-9. For the initial language-based behavior, German (DE) sets currency to EUR and displays `€` on the right side of the input field.
+8. English (EN) sets currency to USD and displays `$` on the left side of the input field.
+9. German (DE) also sets currency to USD and displays `$` on the left side of the input field.
 10. The client must explicitly send both `language` and `currency` to the server.
-11. The currency must be set explicitly in client code based on the selected UI language, so that a later GUI control can change currency independently.
+11. The currency must be set explicitly in client code based on the selected UI language, even though both initial languages currently use USD, so that a later GUI control can change currency independently.
 12. The client must send the HTTP header `X-myCurrencyMagic-Client` with conversion requests.
 13. The input field must accept only digits `0-9` and comma `,`.
 14. Spaces entered by the user must be ignored.

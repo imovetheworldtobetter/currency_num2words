@@ -132,7 +132,7 @@ Configurable client values:
 - `ClientRuntime:AttemptTimeoutSeconds`: timeout for one request attempt.
 - `ClientRuntime:TotalRequestTimeoutSeconds`: total timeout across retries.
 - `ClientUi:DefaultLanguage`: initial UI language.
-- `ClientUi:Languages:<language>:Currency`: currency sent for that language, for example `USD` for `en` and `EUR` for `de`.
+- `ClientUi:Languages:<language>:Currency`: currency sent for that language. The current default is `USD` for both `en` and `de`.
 - `ClientUi:Languages:<language>:CurrencySymbol`: symbol shown in the UI.
 - `ClientUi:Languages:<language>:IsCurrencyLeading`: controls whether the currency symbol is shown before or after the amount input.
 - `ClientUi:Languages:<language>:Texts`: UI texts, validation messages, button text, and server error message.
@@ -218,7 +218,7 @@ dotnet test .\myCurrencyMagic.sln --no-build --logger "console;verbosity=minimal
 Expected current test count:
 
 ```text
-38 unit tests
+37 unit tests
 8 integration tests
 ```
 

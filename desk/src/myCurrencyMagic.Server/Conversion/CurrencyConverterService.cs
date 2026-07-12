@@ -31,7 +31,7 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
 
     private string ConvertAmountToWords(NormalizedAmount amount, string language, string currency)
     {
-        var mainCurrency = GetMainCurrencyName(language, currency, amount.IntegerPart);
+        var mainCurrency = GetMainCurrencyName(language, amount.IntegerPart);
 
         if (language == LanguageCodes.German)
         {
@@ -138,17 +138,12 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
 
     private static string NormalizeCurrency(string currency)
     {
-        if (string.Equals(currency, CurrencyCodes.Euro, StringComparison.OrdinalIgnoreCase))
-        {
-            return CurrencyCodes.Euro;
-        }
-
         if (string.Equals(currency, CurrencyCodes.UsDollar, StringComparison.OrdinalIgnoreCase))
         {
             return CurrencyCodes.UsDollar;
         }
 
-        throw new CurrencyConversionException("The currency field must be 'USD' or 'EUR'.");
+        throw new CurrencyConversionException("The currency field must be 'USD'.");
     }
 
     private string ConvertEnglishNumber(long number)
@@ -281,16 +276,14 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
         return germanRules.Small[number];
     }
 
-    private static string GetMainCurrencyName(string language, string currency, long value)
+    private static string GetMainCurrencyName(string language, long value)
     {
         if (language == LanguageCodes.German)
         {
-            return currency == CurrencyCodes.Euro ? "Euro" : "Dollar";
+            return "Dollar";
         }
 
-        return currency == CurrencyCodes.Euro
-            ? GetEnglishPlural("euro", value)
-            : GetEnglishPlural("dollar", value);
+        return GetEnglishPlural("dollar", value);
     }
 
     private static string GetCentCurrencyName(string language, int value)

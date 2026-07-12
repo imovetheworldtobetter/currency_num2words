@@ -4,7 +4,7 @@
 4. die gerade aktive Sprache wird dadurch angezeigt, dass der klickbare Text DE oder EN highlighted und noch sichtbar ist
 5. vertikal ausgerichtet am goldenen Schnitt befindet sich horizontal zentriert ein Eingabefeld für die Zahleneingaben des Users
 6. das Eingabefeld soll so breit sein, dass es mindestens 50 Zeichen tragen könnte; seine Höhe orientiert sich an der Höhe der eingestellten Schriftart.
-7. neben dem Eingabefeld wird die aktuelle currency für EN "$" oder für DE "€" angezeigt, je nach dem ob EN oder DE als Sprache in der Oberfläche ausgewählt ist. Ist es EN und "$", befindet sich die currency links neben dem Eingabefeld, also vor der Zahl. Ist es DE und "€", befindet sich die currency rechts neben dem Eingabefeld, also nach der Zahl. 
+7. Neben dem Eingabefeld wird die aktuelle currency angezeigt. Für EN und DE wird aktuell USD verwendet und das Symbol "$" links neben dem Eingabefeld angezeigt.
 8. Zeichen und Format im Eingabefeld
 a. Zulässige Eingabezeichen
 - Das Eingabefeld akzeptiert ausschließlich die Zeichen 0–9 und Komma (,)
@@ -12,11 +12,11 @@ a. Zulässige Eingabezeichen
 b. Grundformat (Pattern)
 Der eingegebene Wert muss folgendem Format entsprechen: [1–9 Ziffern] [optional: "," [1–2 Ziffern]]
 - Maximalwert: 999 999 999,99
-- Minimalwert: 0 
+- Minimalwert: 0
 - Nur ein Komma ist erlaubt
 c. Regeln für das Komma
 - Ein Komma darf nur einmal vorkommen
-- Ein Komma muss vor und nach sich jeweils eine Ziffer haben 
+- Ein Komma muss vor und nach sich jeweils eine Ziffer haben
   Gültig: "0,3", "12,00", "000,5"
   Ungültig: ",3", "3,", ",", ",,"
 d. Tausendertrennzeichen (Darstellung)
@@ -24,7 +24,7 @@ d. Tausendertrennzeichen (Darstellung)
 - Beispiele:
   - Eingabe: "67890" → Darstellung: "67 890"
   - Eingabe: "2546,36" → Darstellung: "2 546,36"
-- Wenn direkt nach drei Ziffern ein Komma folgt, kein Leerzeichen einfügen:  
+- Wenn direkt nach drei Ziffern ein Komma folgt, kein Leerzeichen einfügen:
   "123,45" bleibt "123,45"
 e. Copy/Paste-Verhalten
 - Eingefügte Werte wie "1 234,56" werden automatisch bereinigt:
@@ -41,8 +41,8 @@ g. Minimalanforderung
 - Das Eingabefeld muss mindestens eine Ziffer enthalten können
 - Ein einzelnes Komma ist nicht zulässig
 h. Platzhalter / Pattern-Hinweis
-- Das Eingabefeld zeigt ein hellgraues Platzhalterformat:  
-  "123 456 789,12"  
+- Das Eingabefeld zeigt ein hellgraues Platzhalterformat:
+  "123 456 789,12"
   (rein visuell, keine Validierung durch den Platzhalter)
 9. Validierung: gibt der User unzulässige Zeichen in das Eingabefeld ein, soll unter dem Eingabefeld ein kleiner akzentuierter Hinweistext zu den erlaubten Zeichen erscheinen.
 10. Validierung: gibt der User ein ungültiges Format in das Eingabefeld ein, soll unter dem Eingabefeld ein kleiner akzentuierter Hinweistext zum erlaubten Format erscheinen.

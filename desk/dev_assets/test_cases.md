@@ -3,69 +3,69 @@
 ## **DE_0_only**
 | Input | expected Output |
 |-------|---------|
-| 0 | null Euro |
+| 0 | null Dollar |
 
 ## **DE_no_comma**
 | Input | expected Output |
 |-------|---------|
-| 33 | dreiunddreißig Euro |
-| 700 | siebenhundert Euro |
-| 1 | ein Euro |
+| 33 | dreiunddreißig Dollar |
+| 700 | siebenhundert Dollar |
+| 1 | ein Dollar |
 
 ## **DE_with_comma**
 | Input | expected Output |
 |-------|---------|
-| 14,05 | vierzehn Euro und fünf Cent |
-| 0,50 | null Euro und fünfzig Cent |
-| 33,00 | dreiunddreißig Euro und null Cent |
+| 14,05 | vierzehn Dollar und fünf Cent |
+| 0,50 | null Dollar und fünfzig Cent |
+| 33,00 | dreiunddreißig Dollar und null Cent |
 
 ## **normalize_leading_zeros_integer**
 | Input | Normalisiert | expected Output |
 |-------|--------------|--------|
-| 0 000,89 | 0,89 | null Euro und neunundachtzig Cent |
-| 0 000,09 | 0,09 | null Euro und neun Cent |
-| 000 567,80 | 567,80 | fünfhundertsiebenundsechzig Euro und achtzig Cent |
+| 0 000,89 | 0,89 | null Dollar und neunundachtzig Cent |
+| 0 000,09 | 0,09 | null Dollar und neun Cent |
+| 000 567,80 | 567,80 | fünfhundertsiebenundsechzig Dollar und achtzig Cent |
 
 ## **normalize_decimal (Zero-Padding bei Kommazahlen)**
 
 | Input | Normalisiert | expected Output |
 |-------|--------------|--------|
-| 25,1 | 25,10 | fünfundzwanzig Euro und zehn Cent |
-| 0,5 | 0,50 | null Euro und fünfzig Cent |
-| 7, | 7,00 | sieben Euro und null Cent |
+| 25,1 | 25,10 | fünfundzwanzig Dollar und zehn Cent |
+| 0,5 | 0,50 | null Dollar und fünfzig Cent |
+| 7, | 7,00 | sieben Dollar und null Cent |
 
 ## **normalize_leading_zeros_integer_and_normalize_decimal**
 | Input | Normalisiert | expected Output |
 |-------|--------------|--------|
-| 0000,5 | 0,50 | null Euro und fünfzig Cent |
+| 0000,5 | 0,50 | null Dollar und fünfzig Cent |
 
-## **DE_singular_currency**
+## **DE_null_plural_currency**
 | Input | expected Output |
 |-------|---------|
-| 2 | zwei Euro |
-| 2,99 | zwei Euro und neunundneunzig Cent |
-| 100 | einhundert Euro |
+| 2 | zwei Dollar |
+| 2,99 | zwei Dollar und neunundneunzig Cent |
+| 100 | einhundert Dollar |
 
 ## **DE_capitalization**
 | Input | expected Output |
 |-------|---------|
-| 33 | dreiunddreißig Euro |
-| 14,05 | vierzehn Euro und fünf Cent |
-| 700 | siebenhundert Euro |
+| 33 | dreiunddreißig Dollar |
+| 14,05 | vierzehn Dollar und fünf Cent |
+| 700 | siebenhundert Dollar |
 
 ## **DE_concat**
 | Input | expected Output |
 |-------|---------|
-| 33 | dreiunddreißig Euro |
-| 57 | siebenundfünfzig Euro |
-| 999 | neunhundertneunundneunzig Euro |
+| 33 | dreiunddreißig Dollar |
+| 57 | siebenundfünfzig Dollar |
+| 999 | neunhundertneunundneunzig Dollar |
 
 ## **thousands_space**
 | Input | expected Output |
 |-------|---------|
-| 33 700 | dreiunddreißigtausend siebenhundert Euro |
-| 1 000 | eintausend Euro |
-| 12 345 | zwölftausend dreihundertfünfundvierzig Euro |
+| 33 700 | dreiunddreißigtausend siebenhundert Dollar |
+| 1 000 | eintausend Dollar |
+| 12 345 | zwölftausend dreihundertfünfundvierzig Dollar |
 
 
 
@@ -152,12 +152,12 @@
 
 | Zahl | Expected Output Zahlenwort | Expected Output Zahlenwort und Währung | Expected Output Vollständiger Geldbetrag in Worten|
 |------|--------|--------|--------|
-| 0 | null | null Euro | null Euro und null Cent |
-| 1 | ein | ein Euro | ein Euro und ein Cent |
-| 2 | zwei | zwei Euro | zwei Euro und zwei Cent |
-| 7 | sieben | sieben Euro | sieben Euro und sieben Cent |
-| 13 | dreizehn | dreizehn Euro | dreizehn Euro und dreizehn Cent |
-| 19 | neunzehn | neunzehn Euro | neunzehn Euro und neunzehn Cent |
+| 0 | null | null Dollar | null Dollar und null Cent |
+| 1 | ein | ein Dollar | ein Dollar und ein Cent |
+| 2 | zwei | zwei Dollar | zwei Dollar und zwei Cent |
+| 7 | sieben | sieben Dollar | sieben Dollar und sieben Cent |
+| 13 | dreizehn | dreizehn Dollar | dreizehn Dollar und dreizehn Cent |
+| 19 | neunzehn | neunzehn Dollar | neunzehn Dollar und neunzehn Cent |
 
 ---
 
@@ -165,9 +165,9 @@
 
 | Zahl | Expected Output Zahlenwort | Expected Output Zahlenwort und Währung | Expected Output Vollständiger Geldbetrag in Worten|
 |------|--------|--------|--------|
-| 20 | zwanzig | zwanzig Euro | zwanzig Euro und zwanzig Cent |
-| 40 | vierzig | vierzig Euro | vierzig Euro und vierzig Cent |
-| 90 | neunzig | neunzig Euro | neunzig Euro und neunzig Cent |
+| 20 | zwanzig | zwanzig Dollar | zwanzig Dollar und zwanzig Cent |
+| 40 | vierzig | vierzig Dollar | vierzig Dollar und vierzig Cent |
+| 90 | neunzig | neunzig Dollar | neunzig Dollar und neunzig Cent |
 
 ---
 
@@ -177,26 +177,26 @@
 
 | Zahl | Expected Output Zahlenwort | Expected Output Zahlenwort und Währung | Expected Output Vollständiger Geldbetrag in Worten|
 |------|--------|--------|--------|
-| 100 | einhundert | einhundert Euro | einhundert Euro und null Cent |
-| 157 | einhundertsiebenundfünfzig | einhundertsiebenundfünfzig Euro | einhundertsiebenundfünfzig Euro und null Cent |
-| 999 | neunhundertneunundneunzig | neunhundertneunundneunzig Euro | neunhundertneunundneunzig Euro und null Cent |
+| 100 | einhundert | einhundert Dollar | einhundert Dollar und null Cent |
+| 157 | einhundertsiebenundfünfzig | einhundertsiebenundfünfzig Dollar | einhundertsiebenundfünfzig Dollar und null Cent |
+| 999 | neunhundertneunundneunzig | neunhundertneunundneunzig Dollar | neunhundertneunundneunzig Dollar und null Cent |
 
 ### **1000 – tausend**
 
 | Zahl | Expected Output Zahlenwort | Expected Output Zahlenwort und Währung | Expected Output Vollständiger Geldbetrag in Worten|
 |------|--------|--------|--------|
-| 1 000 | eintausend | eintausend Euro | eintausend Euro und null Cent |
-| 1 750 | eintausendsiebenhundertfünfzig | eintausendsiebenhundertfünfzig Euro | eintausendsiebenhundertfünfzig Euro und null Cent |
-| 9 999 | neuntausendneunhundertneunundneunzig | neuntausendneunhundertneunundneunzig Euro | neuntausendneunhundertneunundneunzig Euro und null Cent |
+| 1 000 | eintausend | eintausend Dollar | eintausend Dollar und null Cent |
+| 1 750 | eintausendsiebenhundertfünfzig | eintausendsiebenhundertfünfzig Dollar | eintausendsiebenhundertfünfzig Dollar und null Cent |
+| 9 999 | neuntausendneunhundertneunundneunzig | neuntausendneunhundertneunundneunzig Dollar | neuntausendneunhundertneunundneunzig Dollar und null Cent |
 
 ### **1 000 000 – million**
 
 | Zahl | Expected Output Zahlenwort | Expected Output Zahlenwort und Währung | Expected Output Vollständiger Geldbetrag in Worten|
 |------|--------|--------|--------|
-| 1 000 000 | eine Million | eine Million Euro | eine Million Euro und null Cent |
-| 1 234 567 | eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig | eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig Euro | eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig Euro und null Cent |
-| 9 999 999 | neun Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig | neun Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Euro | neun Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Euro und null Cent |
-| 99 999 999 | neunundneunzig Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig | neunundneunzig Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Euro | neunundneunzig Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Euro und null Cent |
+| 1 000 000 | eine Million | eine Million Dollar | eine Million Dollar und null Cent |
+| 1 234 567 | eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig | eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig Dollar | eine Million zweihundertvierunddreißigtausend fünfhundertsiebenundsechzig Dollar und null Cent |
+| 9 999 999 | neun Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig | neun Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Dollar | neun Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Dollar und null Cent |
+| 99 999 999 | neunundneunzig Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig | neunundneunzig Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Dollar | neunundneunzig Millionen neunhundertneunundneunzigtausend neunhundertneunundneunzig Dollar und null Cent |
 
 ---
 

@@ -16,8 +16,7 @@ public sealed class ServerApiOptions
 
     public string[] SupportedCurrencies { get; init; } =
     [
-        CurrencyCodes.UsDollar,
-        CurrencyCodes.Euro
+        CurrencyCodes.UsDollar
     ];
 
     public bool IsSupportedLanguage(string language)

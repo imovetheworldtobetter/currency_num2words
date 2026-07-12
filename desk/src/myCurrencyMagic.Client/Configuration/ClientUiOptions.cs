@@ -47,9 +47,9 @@ public sealed class ClientUiOptions
             },
             [LanguageCodes.German] = new()
             {
-                Currency = CurrencyCodes.Euro,
-                CurrencySymbol = "€",
-                IsCurrencyLeading = false,
+                Currency = CurrencyCodes.UsDollar,
+                CurrencySymbol = "$",
+                IsCurrencyLeading = true,
                 Texts = new ClientTextOptions
                 {
                     IntroText = "Mit dieser Anwendung können Sie einen Geldbetrag als Zahl eingeben und in Worte umwandeln. Tippen Sie eine Zahl in das Eingabefeld. Wenn Sie fertig sind, drücken Sie Umwandeln. Ihren Geldbetrag in Worten finden Sie anschließend im Ausgabefeld.",
