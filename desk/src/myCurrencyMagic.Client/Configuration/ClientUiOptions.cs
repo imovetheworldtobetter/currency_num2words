@@ -6,6 +6,7 @@ public sealed class ClientUiOptions
 {
     public const string SectionName = "ClientUi";
 
+    // Configuration model only; actual UI text comes from appsettings.json.
     public string DefaultLanguage { get; init; } = LanguageCodes.English;
 
     public Dictionary<string, ClientLanguageUiOptions> Languages { get; init; } = new(StringComparer.OrdinalIgnoreCase);
