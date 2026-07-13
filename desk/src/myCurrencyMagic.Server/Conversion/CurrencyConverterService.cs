@@ -1,10 +1,12 @@
 using myCurrencyMagic.Shared.Contracts;
+using System.Text.RegularExpressions;
 
 namespace myCurrencyMagic.Server.Conversion;
 
 public sealed class CurrencyConverterService : ICurrencyConverterService
 {
     private const long MaxIntegerPart = 999_999_999;
+    private static readonly Regex ValidAmountPattern = new(@"^(?:\d+|\d{1,3}(?: \d{3})+)(?:,\d{0,2})?$", RegexOptions.Compiled);
 
     private readonly NumberConversionRules _rules;
 
@@ -93,6 +95,11 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
         if (hasCentPart && centText.Length > 2)
         {
             throw new CurrencyConversionException("The cent part must contain at most two digits.");
+        }
+
+        if (!ValidAmountPattern.IsMatch(amount.Trim()))
+        {
+            throw new CurrencyConversionException("The amount field has an invalid format.");
         }
 
         var normalizedIntegerText = integerText.TrimStart('0');

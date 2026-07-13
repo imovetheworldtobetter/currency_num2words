@@ -97,6 +97,16 @@ public sealed class CurrencyConverterServiceTests
         Assert.Throws<CurrencyConversionException>(() => _service.Convert(request));
     }
 
+    [Fact]
+    public void Convert_ThrowsForUnknownInvalidAmountFormat()
+    {
+        var request = new ConvertCurrencyRequest("en", "USD", "12 34");
+
+        var exception = Assert.Throws<CurrencyConversionException>(() => _service.Convert(request));
+
+        Assert.Equal("The amount field has an invalid format.", exception.Message);
+    }
+
     private sealed class TestNumberConversionRulesProvider : INumberConversionRulesProvider
     {
         public NumberConversionRules GetRules()
