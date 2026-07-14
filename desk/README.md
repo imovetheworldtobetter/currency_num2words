@@ -109,6 +109,17 @@ http://localhost:5034
 
 If Visual Studio shows unwanted IIS-related prompts, use the server `http` profile and keep Hot Reload disabled for the server profile if preferred.
 
+### Build and run standalone executable
+
+Open a terminal and run the following command from the client root to build the client executable, and from the server root to build the server executable.
+
+```powershell
+dotnet publish -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=true
+```
+
+Start both created executables to run the application.
+
+
 ## User Configuration
 
 Configuration changes are read when the client or server starts. Restart the affected process after changing a configuration file.
