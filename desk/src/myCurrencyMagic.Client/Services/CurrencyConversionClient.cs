@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Polly.Timeout;
 using myCurrencyMagic.Client.Configuration;
 using myCurrencyMagic.Shared.Contracts;
 
@@ -42,6 +43,10 @@ public sealed class CurrencyConversionClient : ICurrencyConversionClient
             throw;
         }
         catch (TaskCanceledException exception)
+        {
+            throw new CurrencyConversionClientException("The server did not respond in time.", exception);
+        }
+        catch (TimeoutRejectedException exception)
         {
             throw new CurrencyConversionClientException("The server did not respond in time.", exception);
         }

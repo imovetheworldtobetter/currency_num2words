@@ -10,11 +10,11 @@ public sealed class ClientRuntimeOptions
 
     public string ClientHeaderValue { get; init; } = "myCurrencyMagic.Client";
 
-    public int MaxRetryAttempts { get; init; } = 3;
+    public int MaxRetryAttempts { get; init; } = 2;
 
-    public int AttemptTimeoutSeconds { get; init; } = 5;
+    public int AttemptTimeoutSeconds { get; init; } = 1;
 
-    public int TotalRequestTimeoutSeconds { get; init; } = 20;
+    public int TotalRequestTimeoutSeconds { get; init; } = 5;
 
     public TimeSpan AttemptTimeout => TimeSpan.FromSeconds(AttemptTimeoutSeconds);
 
