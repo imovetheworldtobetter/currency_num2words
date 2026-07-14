@@ -8,7 +8,7 @@
         Title="myCurrencyMagic"
         Width="1040"
         Height="720"
-        MinWidth="720"
+        MinWidth="780"
         MinHeight="560"
         WindowStyle="None"
         ResizeMode="CanResize"
