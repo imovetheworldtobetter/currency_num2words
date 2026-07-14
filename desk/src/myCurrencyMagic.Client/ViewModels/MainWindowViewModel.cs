@@ -15,6 +15,7 @@ public sealed class MainWindowViewModel : ObservableObject
     private string _language;
     private string _currency;
     private string _amountText = string.Empty;
+    private string _lastSubmittedRequestSignature = string.Empty;
     private string? _validationMessage;
     private string? _serverMessage;
     private string _outputText = string.Empty;
@@ -32,7 +33,7 @@ public sealed class MainWindowViewModel : ObservableObject
         _currency = CurrentLanguageOptions.Currency;
         SwitchToEnglishCommand = new RelayCommand(SwitchToEnglish);
         SwitchToGermanCommand = new RelayCommand(SwitchToGerman);
-        ConvertCommand = new AsyncRelayCommand(ConvertAsync, CanConvert);
+        ConvertCommand = new AsyncRelayCommand(() => ConvertAsync(forceRequest: false), CanConvert);
     }
 
     public ICommand SwitchToEnglishCommand { get; }
@@ -169,11 +170,19 @@ public sealed class MainWindowViewModel : ObservableObject
             && _formatter.ValidateDisplayText(AmountText, CurrentTexts) is null;
     }
 
-    private async Task ConvertAsync()
+    private async Task ConvertAsync(bool forceRequest)
     {
+        var currentRequestSignature = BuildRequestSignature();
+        if (!forceRequest
+            && string.Equals(currentRequestSignature, _lastSubmittedRequestSignature, StringComparison.Ordinal))
+        {
+            return;
+        }
+
         IsConverting = true;
         ServerMessage = null;
         OutputText = string.Empty;
+        _lastSubmittedRequestSignature = currentRequestSignature;
 
         try
         {
@@ -230,7 +239,7 @@ public sealed class MainWindowViewModel : ObservableObject
 
         if (ValidationMessage is null && !string.IsNullOrWhiteSpace(AmountText))
         {
-            ConvertCommand.Execute(null);
+            _ = ConvertAsync(forceRequest: true);
         }
         else
         {
@@ -245,4 +254,9 @@ public sealed class MainWindowViewModel : ObservableObject
     private ClientLanguageUiOptions CurrentLanguageOptions => _uiOptions.GetLanguage(_language);
 
     private ClientTextOptions CurrentTexts => CurrentLanguageOptions.Texts;
+
+    private string BuildRequestSignature()
+    {
+        return string.Join('|', _language, _currency, AmountText);
+    }
 }
