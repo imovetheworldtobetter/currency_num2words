@@ -1,3 +1,4 @@
+using System;
 using myCurrencyMagic.Server.Conversion;
 using myCurrencyMagic.Shared.Contracts;
 
@@ -85,26 +86,23 @@ public sealed class CurrencyConverterServiceTests
     }
 
     [Theory]
-    [InlineData("en", "USD", "1 000 000 000")]
-    [InlineData("en", "USD", "12,,34")]
-    [InlineData("en", "USD", "abc")]
-    [InlineData("fr", "USD", "1")]
-    [InlineData("en", "GBP", "1")]
-    public void Convert_ThrowsForInvalidRequests(string language, string currency, string amount)
+    [InlineData("en", "USD", "", "The amount field is required.")]
+    [InlineData("en", "USD", " ", "The amount field is required.")]
+    [InlineData("en", "USD", "12,,34", "The amount field must contain at most one comma.")]
+    [InlineData("en", "USD", "abc", "The amount field must start with at least one digit.")]
+    [InlineData("en", "USD", "7,3r", "The cent part must contain digits only.")]
+    [InlineData("en", "USD", "88,345", "The cent part must contain at most two digits.")]
+    [InlineData("en", "USD", "999 999 999 999 999 999 999", "The integer part is too large.")]
+    [InlineData("en", "USD", "1 000 000 000", "The amount must not be greater than 999 999 999,99.")]
+    [InlineData("en", "USD", "12 34", "The amount field has an invalid format.")]
+    [InlineData("fr", "USD", "1", "The language field must be 'en' or 'de'.")]
+    [InlineData("en", "GBP", "1", "The currency field must be 'USD'.")]
+    public void Convert_ThrowsForInvalidRequests(string language, string currency, string amount, string expectedException)
     {
         var request = new ConvertCurrencyRequest(language, currency, amount);
-
-        Assert.Throws<CurrencyConversionException>(() => _service.Convert(request));
-    }
-
-    [Fact]
-    public void Convert_ThrowsForUnknownInvalidAmountFormat()
-    {
-        var request = new ConvertCurrencyRequest("en", "USD", "12 34");
-
         var exception = Assert.Throws<CurrencyConversionException>(() => _service.Convert(request));
 
-        Assert.Equal("The amount field has an invalid format.", exception.Message);
+        Assert.Equal(expectedException, exception.Message);
     }
 
     private sealed class TestNumberConversionRulesProvider : INumberConversionRulesProvider

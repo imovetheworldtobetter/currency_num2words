@@ -6,7 +6,8 @@ namespace myCurrencyMagic.Server.Conversion;
 public sealed class CurrencyConverterService : ICurrencyConverterService
 {
     private const long MaxIntegerPart = 999_999_999;
-    private static readonly Regex ValidAmountPattern = new(@"^(?:\d+|\d{1,3}(?: \d{3})+)(?:,\d{0,2})?$", RegexOptions.Compiled);
+                                                        // full valid number e.g.: 123456789,12
+    private static readonly Regex ValidAmountPattern = new(@"^(?:\d{1,3}(?: \d{3}){0,2})(?:,\d{0,2})?$", RegexOptions.Compiled);
 
     private readonly NumberConversionRules _rules;
 
@@ -97,11 +98,6 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
             throw new CurrencyConversionException("The cent part must contain at most two digits.");
         }
 
-        if (!ValidAmountPattern.IsMatch(amount.Trim()))
-        {
-            throw new CurrencyConversionException("The amount field has an invalid format.");
-        }
-
         var normalizedIntegerText = integerText.TrimStart('0');
         if (normalizedIntegerText.Length == 0)
         {
@@ -116,6 +112,12 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
         if (integerPart > MaxIntegerPart)
         {
             throw new CurrencyConversionException("The amount must not be greater than 999 999 999,99.");
+        }
+
+        //todo: das muss die letzte prüfeung sein, also falls noch was übrig ist
+        if (!ValidAmountPattern.IsMatch(amount.Trim()))
+        {
+            throw new CurrencyConversionException("The amount field has an invalid format.");
         }
 
         var centPart = 0;
