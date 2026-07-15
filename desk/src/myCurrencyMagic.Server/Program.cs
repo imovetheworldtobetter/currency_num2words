@@ -14,12 +14,16 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-try
-{
-    var builder = WebApplication.CreateBuilder(args);
-    var apiOptions = builder.Configuration
-        .GetSection(ServerApiOptions.SectionName)
-        .Get<ServerApiOptions>() ?? new ServerApiOptions();
+    try
+    {
+        var builder = WebApplication.CreateBuilder(args);
+        ServerApiOptions apiOptions = builder.Configuration
+            .GetSection(ServerApiOptions.SectionName)
+            .Get<ServerApiOptions>()!;
+        if (apiOptions is null)
+        {
+            apiOptions = new ServerApiOptions();
+        }
 
     Log.Logger = CreateLogger(builder.Configuration);
 
@@ -132,9 +136,13 @@ finally
 
 static Serilog.ILogger CreateLogger(IConfiguration configuration)
 {
-    var loggingOptions = configuration
+    ServerLoggingOptions loggingOptions = configuration
         .GetSection(ServerLoggingOptions.SectionName)
-        .Get<ServerLoggingOptions>() ?? new ServerLoggingOptions();
+        .Get<ServerLoggingOptions>()!;
+    if (loggingOptions is null)
+    {
+        loggingOptions = new ServerLoggingOptions();
+    }
 
     return new LoggerConfiguration()
         .MinimumLevel.Information()
@@ -155,7 +163,8 @@ static Serilog.ILogger CreateLogger(IConfiguration configuration)
 
 static bool HasValidClientHeader(HttpRequest request, ServerApiOptions apiOptions)
 {
-    return request.Headers.TryGetValue(apiOptions.ClientHeader.Name, out var headerValues)
+    Microsoft.Extensions.Primitives.StringValues headerValues;
+    return request.Headers.TryGetValue(apiOptions.ClientHeader.Name, out headerValues)
         && headerValues.Count == 1
         && string.Equals(
             headerValues[0],

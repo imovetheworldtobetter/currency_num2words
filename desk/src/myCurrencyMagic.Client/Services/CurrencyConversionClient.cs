@@ -84,14 +84,16 @@ public sealed class CurrencyConversionClient : ICurrencyConversionClient
         try
         {
             using var document = JsonDocument.Parse(content);
-            if (document.RootElement.TryGetProperty("detail", out var detail)
+            JsonElement detail;
+            if (document.RootElement.TryGetProperty("detail", out detail)
                 && detail.ValueKind == JsonValueKind.String
                 && !string.IsNullOrWhiteSpace(detail.GetString()))
             {
                 return detail.GetString()!;
             }
 
-            if (document.RootElement.TryGetProperty("title", out var title)
+            JsonElement title;
+            if (document.RootElement.TryGetProperty("title", out title)
                 && title.ValueKind == JsonValueKind.String
                 && !string.IsNullOrWhiteSpace(title.GetString()))
             {

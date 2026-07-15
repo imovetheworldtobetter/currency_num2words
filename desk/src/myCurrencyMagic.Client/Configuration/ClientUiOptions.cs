@@ -17,12 +17,14 @@ public sealed class ClientUiOptions
 
     public ClientLanguageUiOptions GetLanguage(string language)
     {
-        if (Languages.TryGetValue(language, out var languageOptions))
+        ClientLanguageUiOptions? languageOptions;
+        if (Languages.TryGetValue(language, out languageOptions))
         {
             return languageOptions;
         }
 
-        if (Languages.TryGetValue(DefaultLanguage, out var defaultLanguageOptions))
+        ClientLanguageUiOptions? defaultLanguageOptions;
+        if (Languages.TryGetValue(DefaultLanguage, out defaultLanguageOptions))
         {
             return defaultLanguageOptions;
         }

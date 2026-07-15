@@ -103,7 +103,11 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
         var parts = cleaned.Split(',');
         var integerText = parts[0];
         var hasCentPart = parts.Length == 2;
-        var centText = hasCentPart ? parts[1] : string.Empty;
+        string centText = string.Empty;
+        if (hasCentPart)
+        {
+            centText = parts[1];
+        }
 
         if (integerText.Length == 0 || !integerText.All(char.IsDigit))
         {
@@ -126,7 +130,8 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
             normalizedIntegerText = "0";
         }
 
-        if (!long.TryParse(normalizedIntegerText, out var integerPart))
+        long integerPart;
+        if (!long.TryParse(normalizedIntegerText, out integerPart))
         {
             throw new CurrencyConversionException("The integer part is too large.");
         }

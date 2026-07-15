@@ -141,7 +141,11 @@ public sealed class AmountInputFormatter
         var parts = cleaned.Split(',');
         var integerPart = parts[0];
         var hasComma = parts.Length == 2;
-        var decimalPart = hasComma ? parts[1] : string.Empty;
+        string decimalPart = string.Empty;
+        if (hasComma)
+        {
+            decimalPart = parts[1];
+        }
 
         if (integerPart.Length == 0)
         {
@@ -169,7 +173,8 @@ public sealed class AmountInputFormatter
             normalizedInteger = "0";
         }
 
-        if (!long.TryParse(normalizedInteger, out var integerValue) || integerValue > MaxAmount)
+        long integerValue;
+        if (!long.TryParse(normalizedInteger, out integerValue) || integerValue > MaxAmount)
         {
             return texts.MaximumValueMessage;
         }
