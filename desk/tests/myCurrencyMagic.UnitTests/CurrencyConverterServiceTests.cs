@@ -1,4 +1,3 @@
-using System;
 using myCurrencyMagic.Server.Conversion;
 using myCurrencyMagic.Shared.Contracts;
 

@@ -1,4 +1,3 @@
-using System.Net.Http;
 using FluentAssertions;
 using myCurrencyMagic.Client.Configuration;
 using myCurrencyMagic.Client.Services;

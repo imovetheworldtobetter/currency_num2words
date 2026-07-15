@@ -114,7 +114,6 @@ public sealed class CurrencyConverterService : ICurrencyConverterService
             throw new CurrencyConversionException("The amount must not be greater than 999 999 999,99.");
         }
 
-        //todo: das muss die letzte prüfeung sein, also falls noch was übrig ist
         if (!ValidAmountPattern.IsMatch(amount.Trim()))
         {
             throw new CurrencyConversionException("The amount field has an invalid format.");
