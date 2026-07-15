@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Holds language-specific small numbers, tens, and magnitude words.
+*/
+
 using System.Text.Json.Serialization;
 
 namespace myCurrencyMagic.Server.Conversion;

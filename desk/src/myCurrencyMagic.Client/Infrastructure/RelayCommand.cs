@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Provides a simple ICommand implementation for synchronous WPF actions.
+*/
+
 using System.Windows.Input;
 
 namespace myCurrencyMagic.Client.Infrastructure;

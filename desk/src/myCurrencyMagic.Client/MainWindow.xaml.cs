@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿// Purpose: Hosts the WPF window interaction logic, including input filtering and window chrome actions.
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using myCurrencyMagic.Client.ViewModels;

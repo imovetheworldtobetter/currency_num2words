@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Holds assembly-level WPF metadata and visibility settings.
+*/
+
 using System.Windows;
 
 [assembly:ThemeInfo(

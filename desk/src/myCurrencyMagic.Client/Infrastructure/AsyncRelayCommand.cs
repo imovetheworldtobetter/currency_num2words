@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Provides an async ICommand implementation for WPF actions.
+*/
+
 using System.Windows.Input;
 
 namespace myCurrencyMagic.Client.Infrastructure;

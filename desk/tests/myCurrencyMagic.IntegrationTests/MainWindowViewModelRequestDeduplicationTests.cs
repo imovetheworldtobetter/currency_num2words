@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Verifies request deduplication behavior in the client view model.
+*/
+
 using FluentAssertions;
 using System.Reflection;
 using myCurrencyMagic.Client.Configuration;

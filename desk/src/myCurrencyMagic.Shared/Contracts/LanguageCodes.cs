@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Defines supported shared language codes.
+*/
+
 namespace myCurrencyMagic.Shared.Contracts;
 
 public static class LanguageCodes

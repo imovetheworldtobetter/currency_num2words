@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Coordinates the WPF client state, language switching, validation, and conversion actions.
+*/
+
 using System.Windows.Input;
 using myCurrencyMagic.Client.Configuration;
 using myCurrencyMagic.Client.Infrastructure;

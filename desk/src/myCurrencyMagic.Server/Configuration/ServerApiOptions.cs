@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Holds API validation and client header settings for the server.
+*/
+
 using myCurrencyMagic.Shared.Contracts;
 
 namespace myCurrencyMagic.Server.Configuration;

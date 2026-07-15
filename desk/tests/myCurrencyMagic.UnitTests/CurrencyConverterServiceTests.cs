@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Verifies server-side currency conversion rules and normalization behavior.
+*/
+
 using myCurrencyMagic.Server.Conversion;
 using myCurrencyMagic.Shared.Contracts;
 

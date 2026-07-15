@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Stores runtime configuration for the local HTTP client connection and retry behavior.
+*/
+
 namespace myCurrencyMagic.Client.Configuration;
 
 public sealed class ClientRuntimeOptions

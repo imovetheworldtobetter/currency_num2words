@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Provides property-change notification support for view models.
+*/
+
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

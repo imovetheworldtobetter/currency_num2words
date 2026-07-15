@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Verifies client timeout handling against the HTTP conversion client.
+*/
+
 using FluentAssertions;
 using myCurrencyMagic.Client.Configuration;
 using myCurrencyMagic.Client.Services;

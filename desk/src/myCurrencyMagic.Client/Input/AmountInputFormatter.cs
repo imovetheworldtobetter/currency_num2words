@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Formats, normalizes, and validates amount input text for the client UI.
+*/
+
 using myCurrencyMagic.Client.Configuration;
 
 namespace myCurrencyMagic.Client.Input;
@@ -6,6 +10,12 @@ public sealed class AmountInputFormatter
 {
     private const long MaxAmount = 999_999_999;
 
+    /*
+     * Method: Format
+     * Purpose: Formats raw amount text and validates it for UI display.
+     * Input: rawText, caretIndex, and localized validation texts.
+     * Output: A formatted amount, a corrected caret index, and validation metadata.
+    */
     public AmountInputFormatResult Format(string rawText, int caretIndex, ClientTextOptions texts)
     {
         var contentCharsBeforeCaret = CountContentCharacters(rawText, caretIndex);
@@ -21,11 +31,23 @@ public sealed class AmountInputFormatter
             validationMessage);
     }
 
+    /*
+     *  Method: ContainsOnlyAllowedCharacters
+     *  Purpose: Checks whether the text only contains digits, comma, or spaces.
+     *  Input: Raw input text.
+     *  Output: True when only allowed characters are present.
+    */
     public bool ContainsOnlyAllowedCharacters(string text)
     {
         return text.All(character => char.IsDigit(character) || character == ',' || character == ' ');
     }
 
+    /*
+     *  Method: IsValidPasteText
+     *  Purpose: Validates pasted content before it is accepted by the input field.
+     *  Input: Text from the clipboard.
+     *  Output: True when the paste content would form a valid amount.
+    */
     public bool IsValidPasteText(string text)
     {
         if (!ContainsOnlyAllowedCharacters(text))
@@ -37,12 +59,24 @@ public sealed class AmountInputFormatter
         return ValidateCleanedText(cleaned, ClientTextOptionsDefaults.Default) is null;
     }
 
+    /*
+     *  Method: ValidateDisplayText
+     *  Purpose: Validates text already shown in the input field.
+     *  Input: Display text and localized validation messages.
+     *  Output: A validation message when invalid; otherwise null.
+    */
     public string? ValidateDisplayText(string displayText, ClientTextOptions texts)
     {
         var cleaned = displayText.Replace(" ", string.Empty, StringComparison.Ordinal);
         return ValidateCleanedText(cleaned, texts);
     }
 
+    /*
+     *  Method: FormatCleanedText
+     *  Purpose: Adds thousands separators to cleaned numeric text.
+     *  Input: Amount text without spaces.
+     *  Output: A display-ready formatted amount string.
+    */
     private static string FormatCleanedText(string cleaned)
     {
         if (cleaned.Length == 0)
@@ -58,6 +92,12 @@ public sealed class AmountInputFormatter
         return commaIndex >= 0 ? $"{formattedInteger},{decimalPart}" : formattedInteger;
     }
 
+    /*
+     *  Method: FormatIntegerPart
+     *  Purpose: Groups the integer part into three-digit blocks.
+     *  Input: Integer-only amount text.
+     *  Output: Integer text with space-separated thousands groups.
+    */
     private static string FormatIntegerPart(string integerPart)
     {
         if (integerPart.Length <= 3)
@@ -75,6 +115,12 @@ public sealed class AmountInputFormatter
         return string.Join(' ', groups);
     }
 
+    /*
+     *  Method: ValidateCleanedText
+     *  Purpose: Applies numeric validation rules to cleaned amount text.
+     *  Input: Cleaned amount text and localized validation texts.
+     *  Output: Validation text for invalid input; otherwise null.
+    */
     private static string? ValidateCleanedText(string cleaned, ClientTextOptions texts)
     {
         if (cleaned.Length == 0)
@@ -131,6 +177,12 @@ public sealed class AmountInputFormatter
         return null;
     }
 
+    /*
+     *  Method: CountContentCharacters
+     *  Purpose: Counts non-space characters before the caret.
+     *  Input: Raw text and caret index.
+     *  Output: Number of content characters before the caret.
+    */
     private static int CountContentCharacters(string text, int caretIndex)
     {
         var boundedCaretIndex = Math.Clamp(caretIndex, 0, text.Length);
@@ -146,6 +198,12 @@ public sealed class AmountInputFormatter
         return count;
     }
 
+    /*
+     *  Method: FindCaretIndex
+     *  Purpose: Maps the logical caret position back to the formatted text.
+     *  Input: Formatted text and content-character count before the caret.
+     *  Output: New caret index in the formatted text.
+    */
     private static int FindCaretIndex(string formattedText, int contentCharactersBeforeCaret)
     {
         if (contentCharactersBeforeCaret <= 0)

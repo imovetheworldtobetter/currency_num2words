@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Loads number conversion rules from JSON files at server startup.
+*/
+
 using System.Text.Json;
 
 namespace myCurrencyMagic.Server.Conversion;

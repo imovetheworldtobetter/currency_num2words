@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Represents client-side failures when calling the conversion server.
+*/
+
 namespace myCurrencyMagic.Client.Services;
 
 public sealed class CurrencyConversionClientException : Exception

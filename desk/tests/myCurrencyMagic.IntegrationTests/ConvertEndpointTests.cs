@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Verifies the HTTP API endpoint contract and routing behavior.
+*/
+
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;

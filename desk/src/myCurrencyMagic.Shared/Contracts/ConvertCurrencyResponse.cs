@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Represents a currency conversion response payload.
+*/
+
 namespace myCurrencyMagic.Shared.Contracts;
 
 public sealed record ConvertCurrencyResponse(

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿// Purpose: Bootstraps the WPF client application and configures its startup window.
+using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

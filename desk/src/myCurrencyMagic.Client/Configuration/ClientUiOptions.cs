@@ -1,4 +1,8 @@
-﻿using myCurrencyMagic.Shared.Contracts;
+﻿/*
+ * Purpose: Stores language-dependent UI texts and currency presentation options for the WPF client.
+*/
+
+using myCurrencyMagic.Shared.Contracts;
 
 namespace myCurrencyMagic.Client.Configuration;
 

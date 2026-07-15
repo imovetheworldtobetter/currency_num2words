@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Sends conversion requests to the server and translates HTTP failures into client errors.
+*/
+
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -18,6 +22,12 @@ public sealed class CurrencyConversionClient : ICurrencyConversionClient
         _options = options;
     }
 
+    /*
+     *  Method: ConvertAsync
+     *  Purpose: Sends a conversion request to the server and returns the parsed response.
+     *  Input: Request payload and cancellation token.
+     *  Output: Conversion response or a client-side exception for HTTP, timeout, or problem-details failures.
+    */
     public async Task<ConvertCurrencyResponse> ConvertAsync(ConvertCurrencyRequest request, CancellationToken cancellationToken)
     {
         using var httpRequest = new HttpRequestMessage(HttpMethod.Post, ApiRoutes.Convert)
@@ -56,6 +66,12 @@ public sealed class CurrencyConversionClient : ICurrencyConversionClient
         }
     }
 
+    /*
+     *  Method: ReadProblemDetailAsync
+     *  Purpose: Reads a readable error description from a problem-details response.
+     *  Input: HTTP response and cancellation token.
+     *  Output: Problem description string or a fallback error message.
+    */
     private static async Task<string> ReadProblemDetailAsync(HttpResponseMessage response, CancellationToken cancellationToken)
     {
         var fallback = $"The server returned HTTP {(int)response.StatusCode}.";

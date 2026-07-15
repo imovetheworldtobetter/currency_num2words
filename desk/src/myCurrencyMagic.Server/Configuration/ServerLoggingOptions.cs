@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Holds Serilog file sink settings for server logging.
+*/
+
 namespace myCurrencyMagic.Server.Configuration;
 
 public sealed class ServerLoggingOptions

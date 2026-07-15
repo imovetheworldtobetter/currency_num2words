@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Defines the server-side currency conversion contract.
+*/
+
 using myCurrencyMagic.Shared.Contracts;
 
 namespace myCurrencyMagic.Server.Conversion;

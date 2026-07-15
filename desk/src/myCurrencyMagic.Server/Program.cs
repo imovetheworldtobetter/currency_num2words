@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Configures and hosts the local Minimal API server for currency conversion.
+*/
+
 using Microsoft.AspNetCore.Mvc;
 using myCurrencyMagic.Server.Configuration;
 using myCurrencyMagic.Server.Conversion;

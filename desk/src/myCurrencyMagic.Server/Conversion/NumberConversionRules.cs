@@ -1,3 +1,7 @@
+﻿/*
+ * Purpose: Stores language-specific number conversion data for the server.
+*/
+
 using System.Text.Json.Serialization;
 
 namespace myCurrencyMagic.Server.Conversion;
