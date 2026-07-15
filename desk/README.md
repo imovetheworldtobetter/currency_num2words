@@ -203,6 +203,9 @@ logs/log-2026071214.txt
 - Tests `POST /convert`.
 - Covers routing, JSON serialization, required client header, validation errors, dependency injection, and success responses.
 
+`Manual server checks`
+- For manual server checks in Visual Studio, the file `src\myCurrencyMagic.Server\myCurrencyMagic.Server.http` contains a ready-to-run request that mirrors the API contract.
+
 ### Run Tests From Command Line
 
 Run from the repository root:

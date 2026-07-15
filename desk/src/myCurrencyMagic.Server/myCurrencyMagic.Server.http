@@ -1,3 +1,10 @@
+//
+// Purpose: Manual HTTP request file for Visual Studio. It helps to test the local server endpoint
+// by hand without extra tools.
+// The request mirrors the API contract used by the client: local localhost URL, POST /convert,
+// JSON body, and the required client header.
+//
+
 @myCurrencyMagic.Server_HostAddress = http://localhost:5034
 
 POST {{myCurrencyMagic.Server_HostAddress}}/convert
