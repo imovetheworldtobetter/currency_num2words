@@ -7,3 +7,5 @@ Used AI:
 - Codex
   - gpt-5.4-mini
   - gpt-5.5
+  
+The coding task is described in **Coding_Task.pdf**.
