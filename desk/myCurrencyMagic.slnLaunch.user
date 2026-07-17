@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "src\\myCurrencyMagic.Server\\myCurrencyMagic.Server.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\myCurrencyMagic.Client\\myCurrencyMagic.Client.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
