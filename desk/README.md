@@ -1,6 +1,6 @@
 # myCurrencyMagic
 
-<img src="myCurrencyMagic.png" alt="Screenshot of desktop application client" width="600">
+<img src="docs/myCurrencyMagic.png" alt="Screenshot of desktop application client" width="600">
 
 `myCurrencyMagic` is a .NET 9 WPF desktop client and local ASP.NET Core Minimal API server for converting numeric currency amounts in US Dollar into words.
 
