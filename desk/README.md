@@ -11,6 +11,9 @@ The WPF client is the presentation layer. The server owns the conversion logic a
 
 ## Key Design Decisions & Assumptions
 
+- **Environment:** .NET 9
+- **Client:** WPF desktop
+- **Server:** ASP.NET Core Minimal API
 - **Currency:** US Dollar  
 - **Supported languages:** German (DE) and US English (US-EN)  
 - **Amount formatting:** If the amount contains a comma, both dollars and cents are always included in the output  
@@ -23,6 +26,7 @@ The WPF client is the presentation layer. The server owns the conversion logic a
 - **Development settings:** “Hot Reload” feature disabled  
 - **Testing:** FluentAssertions 8.10.0 used for unit tests (free of charge for non-commercial use only)  
 - **Executables:** No standalone executables are provided for security reasons. Users can build executables themselves; see chapter [Go to build instructions](#build-and-run-standalone-executable) .
+- **Look&Feel:** Company corporate design
 
 
 ## Outlook
