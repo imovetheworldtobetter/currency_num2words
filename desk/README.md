@@ -30,7 +30,7 @@ The WPF client is the presentation layer. The server owns the conversion logic a
 - Support for additional currencies and languages  
 - Development of client-side logging  
 - Extended exception handling (e.g., missing client headers)  
-- Provision of remote server connectivity: URL, secure transport, and access (HTTPS, authentication, firewall)  
+- Provision of remote server connectivity: URL, secure transport and access (HTTPS, authentication, firewall)  
 - Linter integration for automated code quality checks  
 - Development of a web client as an alternative to the desktop client  
 
