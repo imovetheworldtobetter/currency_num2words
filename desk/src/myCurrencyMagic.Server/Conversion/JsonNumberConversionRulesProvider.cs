@@ -8,7 +8,7 @@ namespace myCurrencyMagic.Server.Conversion;
 
 public sealed class JsonNumberConversionRulesProvider : INumberConversionRulesProvider
 {
-    private const string RulesRelativePath = "dev_assets/rules_numeric_conversion.json";
+    private const string RulesRelativePath = "rules_numeric_conversion.json";
 
     private readonly Lazy<NumberConversionRules> _rules = new(LoadRules);
 

@@ -14,7 +14,7 @@ arm64/
 *.suo
 *.rsuser
 *.sln.docstates
-*.slnLaunch.user
+
 
 # Rider / ReSharper
 .idea/
@@ -34,7 +34,7 @@ coverage/
 coverage.*
 *.coverage
 *.coveragexml
-*.trx
+
 
 # NuGet local output
 *.nupkg

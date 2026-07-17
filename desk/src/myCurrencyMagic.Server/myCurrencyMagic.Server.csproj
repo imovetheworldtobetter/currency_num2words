@@ -16,8 +16,4 @@
     <ProjectReference Include="..\myCurrencyMagic.Shared\myCurrencyMagic.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="..\..\dev_assets\rules_numeric_conversion.json" Link="dev_assets\rules_numeric_conversion.json" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
 </Project>

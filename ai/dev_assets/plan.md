@@ -18,7 +18,7 @@ The Windows client provides the user interface. The local ASP.NET Core Minimal A
 - Use isolated unit tests for `CurrencyConverterService`.
 - Use in-memory integration tests for the Minimal API.
 - Use `Microsoft.Extensions.Http.Resilience` for HTTP timeout and retry behavior.
-- Use a maximum of 3 retries.
+- Use a maximum of 2 retries.
 - Use real German umlauts and sharp s in German conversion output.
 - Use US English number wording.
 - Send `language`, `currency`, and `amount` from client to server.
