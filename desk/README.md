@@ -1,6 +1,8 @@
 # myCurrencyMagic
 
-<img src="docs/myCurrencyMagic.png" alt="Screenshot of desktop application client" width="600">
+<p align="center">
+	<img src="docs/myCurrencyMagic.png" alt="Screenshot of desktop application client" width="600">
+</p>
 
 `myCurrencyMagic` is a .NET 9 WPF desktop client and local ASP.NET Core Minimal API server for converting numeric currency amounts in US Dollar into words.
 
@@ -10,7 +12,7 @@ The WPF client is the presentation layer. The server owns the conversion logic a
 ## Key Design Decisions & Assumptions
 
 - **Currency:** US Dollar  
-- **Supported languages:** German (DE) and US English (EN-US)  
+- **Supported languages:** German (DE) and US English (US-EN)  
 - **Amount formatting:** If the amount contains a comma, both dollars and cents are always included in the output  
 - **Internet usage:**  
   - Internet connection required once to download necessary packages for building the solution  
@@ -42,11 +44,6 @@ src/
 tests/
   myCurrencyMagic.UnitTests
   myCurrencyMagic.IntegrationTests
-dev_assets/
-  rules_numeric_conversion.json
-  rules_semantic_conversion.json
-  test_cases.md
-  requirements.md
 ```
 
 ## Development Environment
