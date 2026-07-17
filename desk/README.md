@@ -17,7 +17,8 @@ The WPF client is the presentation layer. The server owns the conversion logic a
 - **Internet usage:**  
   - Internet connection required once to download necessary packages for building the solution  
   - No internet connection required to run the application after the initial build  
-- **Communication:** HTTP is used to avoid certificate‑related complexities  
+- **Communication:** HTTP is used to avoid certificate-related complexities
+  - http Client Header is used to fullfill a minimum of security
 - **Architecture:** Localhost is used to fulfill the client–server architecture requirement  
 - **Development settings:** “Hot Reload” feature disabled  
 - **Testing:** FluentAssertions 8.10.0 used for unit tests (free of charge for non-commercial use only)  
